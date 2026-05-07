@@ -6,8 +6,8 @@ import { Check, Sparkles } from "lucide-react"
 const plans = [
   {
     name: "Básico",
-    price: "$299",
-    period: "USD",
+    price: "$200.000",
+    period: "ARS",
     description: "Perfecto para emprendedores que recién comienzan",
     features: [
       "Página web de 1-3 secciones",
@@ -21,8 +21,8 @@ const plans = [
   },
   {
     name: "Profesional",
-    price: "$499",
-    period: "USD",
+    price: "$350.000",
+    period: "ARS",
     description: "El más elegido por pequeños negocios",
     features: [
       "Página web de 5-7 secciones",
@@ -39,8 +39,8 @@ const plans = [
   },
   {
     name: "Premium",
-    price: "$799",
-    period: "USD",
+    price: "$500.000",
+    period: "+ ARS",
     description: "Para negocios que quieren destacar",
     features: [
       "Página web ilimitada",
