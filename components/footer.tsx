@@ -47,7 +47,7 @@ export function Footer() {
               <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
                 <Zap className="w-5 h-5 text-primary-foreground" />
               </div>
-              <span className="text-xl font-bold text-foreground">LuckyTech</span>
+              <span className="text-xl font-bold text-foreground">Tu web al toque</span>
             </div>
             <p className="text-muted-foreground max-w-sm mb-6">
               Creamos páginas web modernas y accesibles para emprendedores que quieren verse profesionales y conseguir más clientes.
@@ -62,7 +62,7 @@ export function Footer() {
                 <MessageCircle className="w-5 h-5 text-foreground" />
               </a>
               <a
-                href="https://instagram.com/luckytech"
+                href="https://instagram.com/tuwebaltoque"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-10 h-10 bg-secondary rounded-lg flex items-center justify-center hover:bg-primary/20 transition-colors"
@@ -115,10 +115,10 @@ export function Footer() {
               </li>
               <li>
                 <a
-                  href="mailto:hola@luckytech.com"
+                  href="mailto:hola@tuwebaltoque.com"
                   className="text-muted-foreground hover:text-foreground transition-colors"
                 >
-                  hola@luckytech.com
+                  hola@tuwebaltoque.com
                 </a>
               </li>
             </ul>
@@ -128,7 +128,7 @@ export function Footer() {
         {/* Bottom bar */}
         <div className="border-t border-border pt-8 text-center">
           <p className="text-sm text-muted-foreground">
-            © {new Date().getFullYear()} LuckyTech. Todos los derechos reservados.
+            © {new Date().getFullYear()} Tu web al toque. Todos los derechos reservados.
           </p>
         </div>
       </div>

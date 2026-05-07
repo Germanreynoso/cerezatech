@@ -7,7 +7,7 @@ const testimonials = [
   {
     name: "María González",
     business: "Dulce Momentos - Pastelería",
-    text: "Gracias a LuckyTech ahora mis clientes encuentran mi negocio mucho más fácil. Las ventas aumentaron un 40% en el primer mes.",
+    text: "Gracias a Tu web al toque ahora mis clientes encuentran mi negocio mucho más fácil. Las ventas aumentaron un 40% en el primer mes.",
     avatar: "MG"
   },
   {
@@ -25,7 +25,7 @@ const testimonials = [
   {
     name: "Diego López",
     business: "PowerGym - Gimnasio",
-    text: "El equipo de LuckyTech entendió exactamente lo que necesitaba. La web quedó increíble y muy fácil de actualizar.",
+    text: "El equipo de Tu web al toque entendió exactamente lo que necesitaba. La web quedó increíble y muy fácil de actualizar.",
     avatar: "DL"
   }
 ]
