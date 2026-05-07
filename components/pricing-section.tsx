@@ -8,55 +8,44 @@ const plans = [
     name: "Básico",
     price: "$200.000",
     period: "ARS",
-    description: "Perfecto para emprendedores que recién comienzan",
+    description: "Ideal para empezar.",
     features: [
-      "Página web de 1-3 secciones",
+      "Landing simple",
+      "WhatsApp",
       "Diseño responsive",
-      "Botón de WhatsApp",
-      "Optimización SEO básica",
-      "1 mes de soporte",
-      "Dominio .com incluido"
+      "Información del negocio"
     ],
-    featured: false
+    featured: false,
+    buttonText: "Empezar"
   },
   {
     name: "Profesional",
     price: "$350.000",
     period: "ARS",
-    description: "El más elegido por pequeños negocios",
+    description: "El más elegido.",
     features: [
-      "Página web de 5-7 secciones",
-      "Diseño responsive premium",
-      "Botón de WhatsApp",
-      "Optimización SEO avanzada",
-      "Integración Google Maps",
+      "Todo lo del básico",
       "Catálogo de productos",
-      "Formulario de contacto",
-      "3 meses de soporte",
-      "Dominio .com incluido"
+      "Optimización Google",
+      "Animaciones modernas"
     ],
-    featured: true
+    featured: true,
+    buttonText: "Quiero este"
   },
   {
     name: "Premium",
     price: "$500.000",
     period: "+ ARS",
-    description: "Para negocios que quieren destacar",
+    description: "Para negocios que quieren destacar.",
     features: [
-      "Página web ilimitada",
-      "Diseño responsive premium",
-      "Botón de WhatsApp",
-      "Optimización SEO completa",
-      "Integración Google Maps",
-      "Catálogo de productos",
-      "Formulario de contacto",
-      "Sistema de reservas",
-      "Blog integrado",
-      "6 meses de soporte",
-      "Dominio .com incluido",
-      "Hosting 1 año incluido"
+      "Todo lo anterior",
+      "Tienda online",
+      "Diseño personalizado",
+      "Soporte prioritario",
+      "Extras premium"
     ],
-    featured: false
+    featured: false,
+    buttonText: "Llevar mi negocio al siguiente nivel"
   }
 ]
 
@@ -130,7 +119,7 @@ export function PricingSection() {
                     : 'bg-secondary text-foreground hover:bg-secondary/80'
                 }`}
               >
-                Empezar ahora
+                {plan.buttonText}
               </motion.a>
             </motion.div>
           ))}

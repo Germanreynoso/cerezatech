@@ -5,28 +5,22 @@ import { Star } from "lucide-react"
 
 const testimonials = [
   {
-    name: "María González",
-    business: "Dulce Momentos - Pastelería",
-    text: "Gracias a Tu web al toque ahora mis clientes encuentran mi negocio mucho más fácil. Las ventas aumentaron un 40% en el primer mes.",
-    avatar: "MG"
+    name: "Carolina García",
+    business: "Emprendedora",
+    text: "Mi negocio ahora se ve mucho más profesional y los clientes me encuentran más fácil.",
+    avatar: "CG"
   },
   {
-    name: "Carlos Rodríguez",
-    business: "BarberKing - Barbería",
-    text: "El sistema de reservas online me cambió la vida. Ya no pierdo tiempo con llamadas, los clientes reservan solos y yo me enfoco en trabajar.",
-    avatar: "CR"
-  },
-  {
-    name: "Ana Martínez",
-    business: "Manos Creativas - Artesanías",
-    text: "Por fin tengo una página web profesional que refleja la calidad de mis productos. Mis clientes confían más en mi marca ahora.",
+    name: "Alejandro Martínez",
+    business: "Dueño de Local",
+    text: "La página quedó increíble y empecé a recibir más consultas desde Google.",
     avatar: "AM"
   },
   {
-    name: "Diego López",
-    business: "PowerGym - Gimnasio",
-    text: "El equipo de Tu web al toque entendió exactamente lo que necesitaba. La web quedó increíble y muy fácil de actualizar.",
-    avatar: "DL"
+    name: "Julieta Sosa",
+    business: "Organizadora de Eventos",
+    text: "La invitación virtual fue un éxito, todos quedaron sorprendidos.",
+    avatar: "JS"
   }
 ]
 

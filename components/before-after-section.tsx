@@ -4,19 +4,17 @@ import { motion } from "framer-motion"
 import { X, Check } from "lucide-react"
 
 const beforeItems = [
-  "Depender solo de Instagram y Facebook",
-  "Perder clientes que no te encuentran",
-  "Responder todo manualmente por WhatsApp",
-  "Parecer un negocio informal",
-  "No tener presencia en Google"
+  "Dependés solo de redes sociales",
+  "Perdés clientes por no responder rápido",
+  "Tu negocio no aparece en Google",
+  "Todo se maneja manualmente"
 ]
 
 const afterItems = [
-  "Presencia profesional 24/7 en internet",
-  "Clientes encontrándote en Google",
-  "Automatización y formularios de contacto",
-  "Imagen de marca seria y confiable",
-  "Tu negocio trabaja mientras dormís"
+  "Más presencia profesional",
+  "Clientes encontrándote online",
+  "Más consultas automáticas",
+  "Más confianza y más ventas"
 ]
 
 export function BeforeAfterSection() {

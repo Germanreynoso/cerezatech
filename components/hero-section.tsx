@@ -32,12 +32,13 @@ export function HeroSection() {
             </motion.div>
 
             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold leading-tight mb-6">
-              <span className="text-foreground">Tu negocio merece </span>
-              <span className="text-gradient">ser encontrado</span>
+              <span className="text-foreground">Hacemos que tu negocio se vea </span>
+              <span className="text-gradient">profesional</span>
+              <span className="text-foreground"> y consiga más clientes.</span>
             </h1>
 
             <p className="text-lg text-muted-foreground mb-8 max-w-lg">
-              Creamos páginas web modernas y accesibles para emprendedores que quieren verse profesionales y conseguir más clientes.
+              Creamos páginas web modernas, rápidas y accesibles para emprendedores y negocios que quieren crecer en internet.
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4">

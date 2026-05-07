@@ -5,34 +5,29 @@ import { Search, MessageCircle, Smartphone, ShoppingBag, MapPin, Shield } from "
 
 const benefits = [
   {
-    icon: Search,
-    title: "Te encuentran en Google",
-    description: "Optimización SEO para que tus clientes te encuentren fácilmente cuando buscan lo que ofreces."
-  },
-  {
     icon: MessageCircle,
-    title: "Botón directo de WhatsApp",
-    description: "Tus clientes pueden contactarte con un solo clic, aumentando las conversiones."
+    title: "TUS CLIENTES TE ESCRIBEN EN UN CLIC",
+    description: "Integración directa con WhatsApp para consultas y ventas rápidas."
   },
   {
     icon: Smartphone,
-    title: "Diseño responsive",
-    description: "Tu web se ve perfecta en celulares, tablets y computadoras."
+    title: "SE VE PERFECTA EN CUALQUIER CELULAR",
+    description: "Tu página adaptada para móviles, tablets y computadoras."
+  },
+  {
+    icon: Search,
+    title: "TE ENCUENTRAN EN GOOGLE",
+    description: "Optimizamos tu web para que más personas descubran tu negocio."
   },
   {
     icon: ShoppingBag,
-    title: "Catálogo de productos",
-    description: "Muestra tus productos o servicios de forma profesional y atractiva."
+    title: "MOSTRÁ TODO LO QUE VENDÉS",
+    description: "Exhibí tus productos o servicios de forma clara y profesional."
   },
   {
     icon: MapPin,
-    title: "Google Maps y reseñas",
-    description: "Integración con ubicación y testimonios para generar más confianza."
-  },
-  {
-    icon: Shield,
-    title: "Más confianza para tu marca",
-    description: "Una web profesional transmite credibilidad y seriedad a tus clientes."
+    title: "GENERÁ MÁS CONFIANZA",
+    description: "Mostrá ubicación, reseñas y presencia profesional online."
   }
 ]
 

@@ -87,8 +87,8 @@ export function InvitationsSection() {
             transition={{ delay: 0.1 }}
             className="text-3xl md:text-5xl font-bold mb-6"
           >
-            Invitaciones Digitales <br />
-            <span className="text-gradient">Para tus mejores momentos</span>
+            Invitaciones digitales <br />
+            <span className="text-gradient">que sorprenden</span>
           </motion.h2>
           
           <motion.p
@@ -98,8 +98,7 @@ export function InvitationsSection() {
             transition={{ delay: 0.2 }}
             className="text-lg text-muted-foreground max-w-2xl mx-auto"
           >
-            Transformamos tus eventos en una experiencia digital única. 
-            Perfecto para Casamientos, Cumpleaños de 15, Bautismos y Aniversarios.
+            Creamos invitaciones virtuales animadas para cumpleaños, bodas y eventos especiales, con música, fotos, animaciones y confirmación por WhatsApp.
           </motion.p>
         </div>
 
@@ -148,7 +147,7 @@ export function InvitationsSection() {
                 className={`flex items-center gap-2 px-8 py-4 rounded-xl font-bold hover:opacity-90 transition-all ${demo.color}`}
               >
                 <Eye className="w-5 h-5" />
-                Ver Demo {demo.label}
+                Ver ejemplo {demo.label}
               </motion.button>
             ))}
             <a

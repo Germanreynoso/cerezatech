@@ -20,10 +20,10 @@ export function Footer() {
           
           <div className="relative z-10">
             <h2 className="text-2xl md:text-4xl font-bold text-foreground mb-4 text-balance">
-              Tu web puede convertirse en tu <span className="text-gradient">mejor vendedor</span>
+              Tu negocio merece <span className="text-gradient">verse profesional.</span>
             </h2>
             <p className="text-muted-foreground mb-8 max-w-xl mx-auto">
-              Dejá de perder clientes. Empezá hoy a construir tu presencia online profesional.
+              Empezá hoy a construir tu presencia online y conseguí más clientes.
             </p>
             <motion.a
               href="https://wa.me/1234567890"
@@ -33,7 +33,7 @@ export function Footer() {
               whileTap={{ scale: 0.98 }}
               className="inline-flex items-center gap-2 bg-primary text-primary-foreground px-8 py-4 rounded-xl font-semibold hover:opacity-90 transition-all glow-yellow"
             >
-              Quiero mi página web
+              Contactate ahora
               <ArrowRight className="w-5 h-5" />
             </motion.a>
           </div>
@@ -47,10 +47,10 @@ export function Footer() {
               <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
                 <Zap className="w-5 h-5 text-primary-foreground" />
               </div>
-              <span className="text-xl font-bold text-foreground">Tu web al toque</span>
+              <span className="text-xl font-bold text-foreground">Al Toque Web</span>
             </div>
             <p className="text-muted-foreground max-w-sm mb-6">
-              Creamos páginas web modernas y accesibles para emprendedores que quieren verse profesionales y conseguir más clientes.
+              Diseño web moderno para emprendedores y negocios.
             </p>
             <div className="flex gap-4">
               <a
@@ -127,8 +127,11 @@ export function Footer() {
 
         {/* Bottom bar */}
         <div className="border-t border-border pt-8 text-center">
+          <p className="text-muted-foreground mb-2">
+            Tu presencia digital importa más de lo que pensás.
+          </p>
           <p className="text-sm text-muted-foreground">
-            © {new Date().getFullYear()} Tu web al toque. Todos los derechos reservados.
+            © {new Date().getFullYear()} Al Toque Web. Todos los derechos reservados.
           </p>
         </div>
       </div>
