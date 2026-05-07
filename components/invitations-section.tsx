@@ -2,7 +2,7 @@
 
 import { useState } from "react"
 import { motion, AnimatePresence } from "framer-motion"
-import { Heart, Calendar, MapPin, Music, Camera, Users, Clock, Send, Gift, Eye, X } from "lucide-react"
+import { Heart, Calendar, MapPin, Music, Camera, Users, Clock, Send, Gift, Eye, X, Star } from "lucide-react"
 
 const features = [
   {
@@ -39,6 +39,7 @@ const features = [
 
 export function InvitationsSection() {
   const [selectedDemo, setSelectedDemo] = useState<string | null>(null)
+  const [isBookOpen, setIsBookOpen] = useState(false)
 
   const demos = [
     {
@@ -48,12 +49,18 @@ export function InvitationsSection() {
       color: "bg-primary text-primary-foreground"
     },
     {
-      id: "15",
-      label: "Mis 15 Años",
-      image: "/15-demo.png",
-      color: "bg-pink-500 text-white"
+      id: "dog-birthday",
+      label: "Cumple Perruno",
+      image: "/dog-birthday-demo.png",
+      color: "bg-orange-400 text-white"
     }
   ]
+
+  // Reset book state when closing modal
+  const handleClose = () => {
+    setSelectedDemo(null)
+    setIsBookOpen(false)
+  }
 
   return (
     <section id="invitaciones" className="relative py-24 overflow-hidden bg-background">
@@ -156,43 +163,98 @@ export function InvitationsSection() {
         </motion.div>
       </div>
 
-      {/* Modal Demo */}
+      {/* Modal Demo with 3D Book Animation */}
       <AnimatePresence>
         {selectedDemo && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-background/80 backdrop-blur-md"
-            onClick={() => setSelectedDemo(null)}
+            className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-background/90 backdrop-blur-xl"
+            onClick={handleClose}
           >
-            <motion.div
-              initial={{ scale: 0.9, y: 20 }}
-              animate={{ scale: 1, y: 0 }}
-              exit={{ scale: 0.9, y: 20 }}
-              className="relative max-w-md w-full glass rounded-3xl overflow-hidden border border-primary/30"
+            <button
+              onClick={handleClose}
+              className="absolute top-8 right-8 p-3 rounded-full glass hover:bg-primary/20 transition-colors z-[110]"
+            >
+              <X className="w-8 h-8 text-foreground" />
+            </button>
+
+            <div 
+              className="relative w-full max-w-4xl aspect-[4/3] flex items-center justify-center perspective-[2000px]"
               onClick={(e) => e.stopPropagation()}
             >
-              <button
-                onClick={() => setSelectedDemo(null)}
-                className="absolute top-4 right-4 p-2 rounded-full glass hover:bg-primary/20 transition-colors z-10"
+              {/* The Book Container */}
+              <motion.div 
+                initial={{ rotateY: 0 }}
+                animate={{ rotateY: isBookOpen ? -20 : 0 }} 
+                className="relative w-[300px] h-[450px] md:w-[400px] md:h-[600px] transition-transform duration-1000 transform-style-3d"
               >
-                <X className="w-6 h-6 text-foreground" />
-              </button>
-              
-              <div className="aspect-[9/16] relative">
-                <img 
-                  src={selectedDemo} 
-                  alt="Invitation Demo" 
-                  className="w-full h-full object-cover"
-                />
-                {/* Simulated interactivity overlay */}
-                <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex flex-col justify-end p-8 pointer-events-none">
-                  <p className="text-white/80 text-sm mb-2">Simulación de interfaz móvil</p>
-                  <div className="h-1 w-24 bg-primary rounded-full mb-4" />
+                {/* Right Page (Fixed - Content) */}
+                <div className="absolute inset-0 bg-card rounded-r-2xl shadow-2xl overflow-hidden border-y border-r border-white/10">
+                  <img 
+                    src={selectedDemo} 
+                    alt="Invitation Content" 
+                    className="w-full h-full object-cover"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-r from-black/20 to-transparent pointer-events-none" />
                 </div>
-              </div>
-            </motion.div>
+
+                {/* Left Page (The Cover that opens) */}
+                <motion.div
+                  animate={{ rotateY: isBookOpen ? -145 : 0 }}
+                  transition={{ duration: 1.5, ease: "easeInOut" }}
+                  style={{ transformOrigin: "left" }}
+                  onClick={() => setIsBookOpen(!isBookOpen)}
+                  className="absolute inset-0 z-20 transform-style-3d cursor-pointer"
+                >
+                  {/* Front Cover */}
+                  <div className="absolute inset-0 backface-hidden bg-primary rounded-l-2xl shadow-xl flex flex-col items-center justify-center p-12 border border-white/20">
+                    <div className="w-24 h-24 bg-white/10 rounded-full flex items-center justify-center mb-6">
+                      <Heart className="w-12 h-12 text-primary-foreground animate-pulse" />
+                    </div>
+                    <h3 className="text-3xl font-bold text-primary-foreground text-center leading-tight">
+                      {selectedDemo.includes('wedding') ? 'Nuestra Boda' : 'Mi Cumple Perruno'}
+                    </h3>
+                    <div className="mt-8 h-px w-20 bg-primary-foreground/30" />
+                    <p className="mt-4 text-primary-foreground/80 font-medium tracking-[0.2em] uppercase text-sm">
+                      {isBookOpen ? 'Cerrar' : 'Hacé clic para abrir'}
+                    </p>
+                  </div>
+
+                  {/* Back of Cover (Inside Left Page) */}
+                  <div 
+                    className="absolute inset-0 backface-hidden bg-secondary rounded-l-2xl border border-white/10 flex flex-col items-center justify-center p-8"
+                    style={{ transform: "rotateY(180deg)" }}
+                  >
+                    <div className="space-y-6 text-center">
+                      <h4 className="text-xl font-bold text-primary italic">Agendá la Fecha</h4>
+                      <p className="text-muted-foreground text-sm leading-relaxed">
+                        Estamos muy felices de compartir este momento tan especial con vos. 
+                        ¡Te esperamos para celebrar juntos!
+                      </p>
+                      <div className="flex justify-center gap-2">
+                        <Star className="w-4 h-4 text-primary" />
+                        <Star className="w-4 h-4 text-primary" />
+                        <Star className="w-4 h-4 text-primary" />
+                      </div>
+                    </div>
+                  </div>
+                </motion.div>
+
+                {/* Book Spine Shadow */}
+                <div className="absolute top-0 bottom-0 left-0 w-4 bg-black/40 blur-sm z-30 pointer-events-none" />
+              </motion.div>
+
+              {/* Instructions text */}
+              <motion.p
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                className="absolute bottom-4 text-muted-foreground text-sm"
+              >
+                {isBookOpen ? 'Hacé clic en la tapa para cerrar' : 'Hacé clic en el libro para abrir la invitación'}
+              </motion.p>
+            </div>
           </motion.div>
         )}
       </AnimatePresence>

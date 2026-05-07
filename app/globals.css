@@ -171,3 +171,11 @@
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
+
+.transform-style-3d {
+  transform-style: preserve-3d;
+}
+
+.backface-hidden {
+  backface-visibility: hidden;
+}
