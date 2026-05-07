@@ -38,7 +38,22 @@ const features = [
 ]
 
 export function InvitationsSection() {
-  const [showDemo, setShowDemo] = useState(false)
+  const [selectedDemo, setSelectedDemo] = useState<string | null>(null)
+
+  const demos = [
+    {
+      id: "wedding",
+      label: "Casamiento",
+      image: "/wedding-demo.png",
+      color: "bg-primary text-primary-foreground"
+    },
+    {
+      id: "15",
+      label: "Mis 15 Años",
+      image: "/15-demo.png",
+      color: "bg-pink-500 text-white"
+    }
+  ]
 
   return (
     <section id="invitaciones" className="relative py-24 overflow-hidden bg-background">
@@ -117,20 +132,23 @@ export function InvitationsSection() {
             Creamos tu tarjeta personalizada en menos de 48hs. Ecológica, moderna y siempre disponible.
           </p>
           <div className="flex flex-wrap justify-center gap-4">
-            <motion.button
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              onClick={() => setShowDemo(true)}
-              className="flex items-center gap-2 bg-foreground text-background px-8 py-4 rounded-xl font-bold hover:opacity-90 transition-all"
-            >
-              <Eye className="w-5 h-5" />
-              Ver Ejemplo de Casamiento
-            </motion.button>
+            {demos.map((demo) => (
+              <motion.button
+                key={demo.id}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                onClick={() => setSelectedDemo(demo.image)}
+                className={`flex items-center gap-2 px-8 py-4 rounded-xl font-bold hover:opacity-90 transition-all ${demo.color}`}
+              >
+                <Eye className="w-5 h-5" />
+                Ver Demo {demo.label}
+              </motion.button>
+            ))}
             <a
               href="https://wa.me/1234567890"
               target="_blank"
               rel="noopener noreferrer"
-              className="bg-primary text-primary-foreground px-8 py-4 rounded-xl font-bold hover:opacity-90 transition-all glow-yellow"
+              className="bg-foreground text-background px-8 py-4 rounded-xl font-bold hover:opacity-90 transition-all"
             >
               Consultar Presupuesto
             </a>
@@ -140,13 +158,13 @@ export function InvitationsSection() {
 
       {/* Modal Demo */}
       <AnimatePresence>
-        {showDemo && (
+        {selectedDemo && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-background/80 backdrop-blur-md"
-            onClick={() => setShowDemo(false)}
+            onClick={() => setSelectedDemo(null)}
           >
             <motion.div
               initial={{ scale: 0.9, y: 20 }}
@@ -156,7 +174,7 @@ export function InvitationsSection() {
               onClick={(e) => e.stopPropagation()}
             >
               <button
-                onClick={() => setShowDemo(false)}
+                onClick={() => setSelectedDemo(null)}
                 className="absolute top-4 right-4 p-2 rounded-full glass hover:bg-primary/20 transition-colors z-10"
               >
                 <X className="w-6 h-6 text-foreground" />
@@ -164,8 +182,8 @@ export function InvitationsSection() {
               
               <div className="aspect-[9/16] relative">
                 <img 
-                  src="/wedding-demo.png" 
-                  alt="Wedding Invitation Demo" 
+                  src={selectedDemo} 
+                  alt="Invitation Demo" 
                   className="w-full h-full object-cover"
                 />
                 {/* Simulated interactivity overlay */}
