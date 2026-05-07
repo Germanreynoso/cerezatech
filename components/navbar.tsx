@@ -27,6 +27,9 @@ export function Navbar() {
             <a href="#portfolio" className="text-muted-foreground hover:text-foreground transition-colors">
               Portfolio
             </a>
+            <a href="#invitaciones" className="text-muted-foreground hover:text-foreground transition-colors">
+              Invitaciones
+            </a>
             <a href="#planes" className="text-muted-foreground hover:text-foreground transition-colors">
               Planes
             </a>
