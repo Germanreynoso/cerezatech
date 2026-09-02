@@ -5,10 +5,10 @@
  *
  * Re-ejecutable en cualquier momento. Idempotente.
  */
-import sharp from "sharp"
 import { mkdir, access } from "node:fs/promises"
 import { dirname, resolve } from "node:path"
 import { fileURLToPath } from "node:url"
+import { loadSharp } from "./optional-deps.mjs"
 
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), "..")
 const SOURCE = resolve(ROOT, "assets/brand/logo-original.jpeg")
@@ -37,6 +37,8 @@ async function main() {
     console.error(`No se encontró el logo original en ${SOURCE}`)
     process.exit(1)
   }
+
+  const sharp = await loadSharp()
 
   await mkdir(PUBLIC, { recursive: true })
 

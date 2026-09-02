@@ -10,10 +10,10 @@
  * Lee las URLs de lib/site-config.ts, así que agregar un proyecto ahí y volver
  * a correr este script es todo lo que hace falta.
  */
-import sharp from "sharp"
 import { mkdir, readFile, rm } from "node:fs/promises"
 import { dirname, resolve } from "node:path"
 import { fileURLToPath } from "node:url"
+import { loadPlaywright, loadSharp } from "./optional-deps.mjs"
 
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), "..")
 const PUBLIC = resolve(ROOT, "public")
@@ -64,14 +64,8 @@ function cleanPage() {
 }
 
 async function main() {
-  const { chromium } = await import("playwright").catch(() => {
-    console.error(
-      "Falta Playwright. Instalalo con:\n" +
-        "  npx --yes playwright@latest install chromium\n" +
-        "  npm i -D playwright"
-    )
-    process.exit(1)
-  })
+  const chromium = await loadPlaywright()
+  const sharp = await loadSharp()
 
   const projects = await readProjects()
   if (projects.length === 0) {

@@ -1,0 +1,13 @@
+# El repo tenía package-lock.json y pnpm-lock.yaml a la vez, y Netlify elegía
+# pnpm por autodetección. Se dejó un único lockfile (npm) y acá se fija el
+# gestor de forma explícita para que local y CI no vuelvan a divergir.
+#
+# `publish` se omite a propósito: lo configura el plugin de Next.js que Netlify
+# aplica al detectar el framework.
+
+[build]
+  command = "npm run build"
+
+[build.environment]
+  NODE_VERSION = "22"
+  NPM_FLAGS = "--include=optional"
