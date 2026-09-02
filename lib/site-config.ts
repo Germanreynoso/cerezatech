@@ -16,7 +16,7 @@ export const SITE = {
 export const CONTACT = {
   whatsapp: "543816789468",
   whatsappDisplay: "+54 381 678 9468",
-  email: "germangonzaloreynoso@gmail.com",
+  email: "reynosogermangonzalo@gmail.com",
   instagram: "germanreynoso16",
   instagramUrl: "https://instagram.com/germanreynoso16",
   location: "Tafí del Valle, Tucumán",
