@@ -224,14 +224,35 @@ export const OTHER_PROJECTS = VISIBLE_PROJECTS.filter((p) => !p.featured)
 /* Planes                                                                      */
 /* -------------------------------------------------------------------------- */
 
+/** Las dos formas de contratar. El sitio ofrece ambas, no una en lugar de la otra. */
+export type BillingMode = "contado" | "suscripcion"
+
 export type Plan = {
   name: string
-  price: string
   audience: string
   description: string
+  /** Lo que el sitio incluye, igual en las dos modalidades. */
   features: readonly string[]
+  /** Cambios de contenido incluidos por mes. Solo aplica a la suscripción. */
+  monthlyEdits: number
   featured: boolean
+  pricing: {
+    /** Pago único. */
+    oneOff: string
+    /** Pago inicial de la suscripción: en torno al 30% del contado. */
+    setup: string
+    /** Cuota mensual: en torno al 9% del contado. */
+    monthly: string
+    /** Doce meses por adelantado, con dos bonificados. */
+    annual: string
+  }
 }
+
+/** Meses de permanencia mínima de la suscripción. */
+export const MIN_TERM_MONTHS = 12
+
+/** Mensualidades que cuesta quedarse con el sitio al dar de baja. */
+export const BUYOUT_MONTHS = 3
 
 /**
  * Mes y año de la última revisión de precios. Se muestra junto a los planes:
@@ -241,16 +262,13 @@ export type Plan = {
 export const PRICES_UPDATED = "septiembre de 2026"
 
 const COMMON_FEATURES = [
-  "Dominio y hosting el primer año",
   "Diseño adaptado a celular",
   "Contacto directo por WhatsApp",
-  "El código y el dominio quedan a tu nombre",
 ] as const
 
 export const PLANS: readonly Plan[] = [
   {
     name: "Básico",
-    price: "$200.000",
     audience: "Landing de una página",
     description: "Para presentar tu negocio y que te escriban.",
     features: [
@@ -258,11 +276,17 @@ export const PLANS: readonly Plan[] = [
       "Una página con todas tus secciones",
       "Entrega en 7 días",
     ],
+    monthlyEdits: 2,
     featured: false,
+    pricing: {
+      oneOff: "$200.000",
+      setup: "$60.000",
+      monthly: "$18.000",
+      annual: "$180.000",
+    },
   },
   {
     name: "Profesional",
-    price: "$350.000",
     audience: "Web de varias secciones",
     description: "Para negocios que necesitan mostrar productos o servicios.",
     features: [
@@ -271,13 +295,18 @@ export const PLANS: readonly Plan[] = [
       "Catálogo con búsqueda y filtros",
       "Optimización para Google (SEO local)",
       "Google Maps y reseñas",
-      "1 mes de cambios sin costo",
     ],
+    monthlyEdits: 4,
     featured: true,
+    pricing: {
+      oneOff: "$350.000",
+      setup: "$100.000",
+      monthly: "$30.000",
+      annual: "$300.000",
+    },
   },
   {
     name: "Premium",
-    price: "$500.000",
     audience: "Tienda online completa",
     description: "Cuando querés vender online de punta a punta.",
     features: [
@@ -286,11 +315,35 @@ export const PLANS: readonly Plan[] = [
       "Carrito y pedidos por WhatsApp",
       "Panel para cargar productos",
       "SEO avanzado y analítica",
-      "3 meses de soporte incluido",
     ],
+    monthlyEdits: 8,
     featured: false,
+    pricing: {
+      oneOff: "$500.000",
+      setup: "$150.000",
+      monthly: "$42.000",
+      annual: "$420.000",
+    },
   },
 ]
+
+/** Lo propio de cada modalidad, que se suma a `features` del plan. */
+export function billingExtras(plan: Plan, mode: BillingMode): readonly string[] {
+  if (mode === "contado") {
+    return [
+      "Dominio y hosting el primer año",
+      "El código y el dominio quedan a tu nombre",
+      "1 mes de cambios sin costo",
+    ]
+  }
+  return [
+    "Dominio y hosting siempre incluidos",
+    `${plan.monthlyEdits} cambios de contenido por mes`,
+    "Actualizaciones de seguridad y backups",
+    "Soporte por WhatsApp",
+    "Reporte mensual de visitas y consultas",
+  ]
+}
 
 /**
  * Cuarta opción, fuera de la grilla de planes.

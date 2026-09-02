@@ -20,9 +20,9 @@ import { VISIBLE_PROJECTS } from "@/lib/site-config"
 const COMMITMENTS: { icon: LucideIcon; title: string; description: string }[] = [
   {
     icon: Code2,
-    title: "La web es tuya",
+    title: "Nunca quedás atado",
     description:
-      "El código y el dominio quedan a tu nombre. Si algún día querés llevártelos a otro lado, te los entregamos sin costo ni condiciones.",
+      "En pago único, el código y el dominio son tuyos desde el día uno. En suscripción, podés quedártelos cuando quieras según las condiciones publicadas. En ningún caso retenemos tu contenido.",
   },
   {
     icon: Eye,

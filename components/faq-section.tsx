@@ -38,9 +38,19 @@ const FAQS = [
       "Sí. Hicimos el portal de la Municipalidad de Tafí del Valle y varias plataformas educativas. Podemos emitir factura y manejar la comunicación por mail cuando la institución lo necesita para dejar constancia.",
   },
   {
+    question: "¿Me conviene el pago único o la suscripción?",
+    answer:
+      "Si podés hacer el desembolso de una, el pago único sale más barato a la larga y la web queda a tu nombre enseguida. La suscripción es para arrancar sin poner todo junto: entrás con un pago inicial mucho menor y el hosting, los cambios y el soporte quedan incluidos todos los meses. Se hace exactamente el mismo trabajo en los dos casos.",
+  },
+  {
+    question: "¿Qué pasa si dejo de pagar la suscripción?",
+    answer:
+      "Cumplidos los 12 meses de permanencia podés dar de baja avisando con 30 días. Si querés quedarte con el sitio, lo transferimos a tu nombre abonando 3 mensualidades. Si preferís darlo de baja, te entregamos tus contenidos y el dominio: no retenemos nada tuyo.",
+  },
+  {
     question: "¿La página es mía? ¿Qué pasa si dejo de trabajar con ustedes?",
     answer:
-      "La página y el dominio son tuyos. Si en algún momento querés llevártela a otro lado, te entregamos todo el código y las credenciales sin costo ni condiciones.",
+      "En pago único, la página y el dominio son tuyos desde el principio: te entregamos el código y las credenciales sin condiciones. En suscripción, pasan a tu nombre cuando decidas quedártela, según las condiciones publicadas en los planes.",
   },
   {
     question: "¿Qué pasa con el dominio y el hosting al año siguiente?",
