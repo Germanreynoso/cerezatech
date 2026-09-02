@@ -1,0 +1,196 @@
+/**
+ * Fuente única de verdad para todo dato editable del sitio.
+ * Ningún componente debe hardcodear un número, precio o URL.
+ */
+
+export const SITE = {
+  name: "Luckywebs",
+  tagline: "Páginas web que conectan",
+  description:
+    "Diseñamos y publicamos páginas web rápidas para negocios y emprendedores. Se ven bien en cualquier celular y convierten visitas en clientes por WhatsApp.",
+  // TODO: confirmar dominio definitivo antes del deploy a producción.
+  url: "https://luckywebs.com.ar",
+  locale: "es_AR",
+} as const
+
+export const CONTACT = {
+  whatsapp: "543816789468",
+  whatsappDisplay: "+54 381 678 9468",
+  email: "reynosogermangonzalo@gmail.com",
+  instagram: "germanreynoso16",
+  instagramUrl: "https://instagram.com/germanreynoso16",
+  location: "Tafí del Valle, Tucumán",
+  coverage: "Tafí del Valle y Tucumán · Trabajamos con toda Argentina",
+  hours: { opens: "09:00", closes: "20:00" },
+} as const
+
+/** Construye un enlace de WhatsApp con mensaje prellenado. */
+export function waLink(message?: string): string {
+  const base = `https://wa.me/${CONTACT.whatsapp}`
+  return message ? `${base}?text=${encodeURIComponent(message)}` : base
+}
+
+/* -------------------------------------------------------------------------- */
+/* Navegación                                                                  */
+/* -------------------------------------------------------------------------- */
+
+export const NAV_LINKS = [
+  { href: "#servicios", label: "Servicios" },
+  { href: "#trabajos", label: "Trabajos" },
+  { href: "#proceso", label: "Proceso" },
+  { href: "#planes", label: "Planes" },
+  { href: "#faq", label: "FAQ" },
+] as const
+
+/* -------------------------------------------------------------------------- */
+/* Trabajos                                                                    */
+/* -------------------------------------------------------------------------- */
+
+export type Project = {
+  slug: string
+  name: string
+  category: string
+  /** Qué resolvimos, en una línea. */
+  summary: string
+  highlights: readonly string[]
+  /** Si falta o está vacía, el proyecto no se renderiza. */
+  url: string
+}
+
+export const PROJECTS: readonly Project[] = [
+  {
+    slug: "municipalidad-tafi",
+    name: "Municipalidad de Tafí del Valle",
+    category: "Organismo público",
+    summary:
+      "Portal institucional con noticias, trámites y guía turística. Muestra el clima y el estado de la ruta en vivo, y está disponible en español e inglés para el turismo.",
+    highlights: ["Institucional", "Clima en vivo", "Buscador", "Español / Inglés"],
+    url: "https://www.municipalidadtafidelvalle.com/",
+  },
+  {
+    slug: "importados-tafi",
+    name: "Importados Tafí",
+    category: "Tienda online",
+    summary:
+      "Catálogo de tecnología con 12 categorías, carrito y búsqueda. Cada pedido llega directo al WhatsApp del local, sin pasarela de pago ni comisiones.",
+    highlights: ["Carrito", "12 categorías", "Pedidos por WhatsApp", "Ofertas"],
+    url: "https://importadostafi.com/",
+  },
+  // TODO: reactivar cuando esté la URL definitiva.
+  // El dominio malina-negra.netlify.app devuelve 404 al 2026-09-02.
+  // Al descomentar, correr `node scripts/capture-work-screenshots.mjs` para
+  // generar public/work-malina-negra-{desktop,mobile}.webp.
+  // {
+  //   slug: "malina-negra",
+  //   name: "Malina Negra",
+  //   category: "Indumentaria",
+  //   summary:
+  //     "Catálogo de temporada con fichas de producto y consulta directa por WhatsApp.",
+  //   highlights: ["Catálogo", "Temporadas", "WhatsApp"],
+  //   url: "",
+  // },
+]
+
+/** Rutas de los screenshots generados por scripts/capture-work-screenshots.mjs */
+export function projectShot(slug: string, view: "desktop" | "mobile"): string {
+  return `/work-${slug}-${view}.webp`
+}
+
+/** Solo los proyectos publicables. La UI nunca renderiza tarjetas rotas. */
+export const VISIBLE_PROJECTS = PROJECTS.filter((p) => p.url.length > 0)
+
+/* -------------------------------------------------------------------------- */
+/* Planes                                                                      */
+/* -------------------------------------------------------------------------- */
+
+export type Plan = {
+  name: string
+  price: string
+  audience: string
+  description: string
+  features: readonly string[]
+  featured: boolean
+}
+
+const COMMON_FEATURES = [
+  "Dominio y hosting el primer año",
+  "Diseño adaptado a celular",
+  "Integración con WhatsApp",
+] as const
+
+export const PLANS: readonly Plan[] = [
+  {
+    name: "Básico",
+    price: "$200.000",
+    audience: "Landing de una página",
+    description: "Ideal para presentar tu negocio y que te escriban.",
+    features: [
+      ...COMMON_FEATURES,
+      "Una página con todas tus secciones",
+      "Formulario de contacto por WhatsApp",
+      "Entrega en 7 días",
+    ],
+    featured: false,
+  },
+  {
+    name: "Profesional",
+    price: "$350.000",
+    audience: "Web de varias secciones",
+    description: "Para negocios que necesitan mostrar productos o servicios.",
+    features: [
+      ...COMMON_FEATURES,
+      "Hasta 5 páginas o secciones",
+      "Catálogo con búsqueda y filtros",
+      "Optimización para Google (SEO local)",
+      "Google Maps y reseñas",
+      "1 mes de cambios sin costo",
+    ],
+    featured: true,
+  },
+  {
+    name: "Premium",
+    price: "$500.000",
+    audience: "Tienda online completa",
+    description: "Cuando querés vender online de punta a punta.",
+    features: [
+      ...COMMON_FEATURES,
+      "Páginas ilimitadas",
+      "Carrito y pedidos por WhatsApp",
+      "Panel para cargar productos",
+      "SEO avanzado y analítica",
+      "3 meses de soporte incluido",
+    ],
+    featured: false,
+  },
+]
+
+/* -------------------------------------------------------------------------- */
+/* Servicios                                                                   */
+/* -------------------------------------------------------------------------- */
+
+export const SERVICES = [
+  {
+    title: "Landing page",
+    description: "Una página que presenta tu negocio y lleva a WhatsApp.",
+  },
+  {
+    title: "Tienda online",
+    description: "Catálogo con carrito y pedidos que llegan a tu teléfono.",
+  },
+  {
+    title: "Web institucional",
+    description: "Varias secciones para empresas y organismos.",
+  },
+  {
+    title: "Catálogo digital",
+    description: "Tus productos ordenados, con búsqueda y filtros.",
+  },
+  {
+    title: "SEO local",
+    description: "Que te encuentren cuando buscan tu rubro en tu zona.",
+  },
+  {
+    title: "Mantenimiento",
+    description: "Cambios, respaldos y soporte después del lanzamiento.",
+  },
+] as const

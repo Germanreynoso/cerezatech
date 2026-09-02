@@ -1,97 +1,127 @@
 "use client"
 
-import { motion, AnimatePresence } from "framer-motion"
-import { ChevronDown } from "lucide-react"
-import { useState } from "react"
+import { motion } from "framer-motion"
+import { MessageCircle } from "lucide-react"
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion"
+import { useMotionVariants, VIEWPORT } from "@/lib/motion"
+import { waLink } from "@/lib/site-config"
 
-const faqs = [
+const FAQS = [
   {
-    question: "¿Cuánto tiempo tarda en estar lista mi página web?",
-    answer: "Dependiendo del plan que elijas, tu página web puede estar lista entre 7 y 15 días hábiles. Te mantenemos informado en todo momento del avance."
+    question: "¿Cuánto tarda en estar lista mi página?",
+    answer:
+      "Entre 7 y 15 días hábiles según el plan. El Básico suele salir en una semana; una tienda completa lleva un poco más. Te damos una fecha concreta antes de arrancar.",
   },
   {
-    question: "¿Necesito conocimientos técnicos para administrarla?",
-    answer: "¡Para nada! Creamos páginas web fáciles de administrar. Además, te damos una capacitación personalizada para que puedas hacer cambios básicos vos mismo."
+    question: "¿Necesito saber de tecnología para administrarla?",
+    answer:
+      "No. Te la entregamos funcionando y, si tu plan incluye panel de carga, te enseñamos a usarlo en una videollamada. Si preferís no tocar nada, los cambios los hacemos nosotros.",
   },
   {
     question: "¿El precio incluye dominio y hosting?",
-    answer: "Sí, todos nuestros planes incluyen el dominio .com por 1 año. El plan Premium también incluye hosting por 1 año. Después podés renovarlo a un precio preferencial."
+    answer:
+      "Sí, el primer año está incluido en todos los planes. A partir del segundo año el costo de renovación es aparte y te avisamos con anticipación cuánto es.",
   },
   {
-    question: "¿La página funciona bien en celulares?",
-    answer: "Absolutamente. Todas nuestras páginas son 100% responsive, lo que significa que se ven y funcionan perfectamente en celulares, tablets y computadoras."
+    question: "¿La página es mía? ¿Qué pasa si dejo de trabajar con ustedes?",
+    answer:
+      "La página y el dominio son tuyos. Si en algún momento querés llevártela a otro lado, te entregamos todo el código y las credenciales sin costo ni condiciones.",
+  },
+  {
+    question: "¿Qué pasa con el dominio y el hosting al año siguiente?",
+    answer:
+      "Podés renovarlos con nosotros o gestionarlos por tu cuenta. Si elegís renovar, te pasamos el detalle de lo que cuesta cada cosa, sin recargo por administrarlo.",
+  },
+  {
+    question: "¿Funciona bien en celulares?",
+    answer:
+      "Es lo primero que diseñamos. La mayoría de tus visitas van a llegar desde el teléfono, así que probamos cada página en pantallas chicas antes de publicar.",
   },
   {
     question: "¿Puedo actualizar el contenido después?",
-    answer: "Sí, podés hacer cambios básicos vos mismo o pedirnos a nosotros. Ofrecemos paquetes de mantenimiento mensual para quienes prefieren delegar las actualizaciones."
+    answer:
+      "Sí. Según el plan tenés un panel para cargar productos y noticias, o nos escribís por WhatsApp y lo hacemos nosotros. El plan Profesional incluye un mes de cambios sin costo.",
   },
   {
     question: "¿Qué pasa si no me gusta el diseño?",
-    answer: "Trabajamos con vos en cada paso del proceso. Incluimos hasta 3 rondas de revisiones para asegurarnos de que el diseño final te encante."
-  }
+    answer:
+      "Te mostramos una propuesta antes de programar nada. Trabajamos sobre ella hasta que te convenza, y recién ahí avanzamos. No pagás por un diseño que no aprobaste.",
+  },
 ]
 
 export function FAQSection() {
-  const [openIndex, setOpenIndex] = useState<number | null>(0)
+  const { fadeUp } = useMotionVariants()
 
   return (
-    <section id="faq" className="py-24 relative bg-secondary/30">
-      <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section
+      id="faq"
+      aria-labelledby="faq-titulo"
+      className="border-y border-border bg-card/40 py-20 md:py-28"
+    >
+      <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="text-center mb-16"
+          initial="hidden"
+          whileInView="visible"
+          viewport={VIEWPORT}
+          variants={fadeUp}
+          className="text-center"
         >
-          <h2 className="text-3xl sm:text-4xl font-bold mb-4">
+          <h2 id="faq-titulo" className="text-balance text-3xl font-bold tracking-tight sm:text-4xl">
             Preguntas <span className="text-gradient">frecuentes</span>
           </h2>
-          <p className="text-muted-foreground">
-            Resolvemos tus dudas para que tomes la mejor decisión
+          <p className="mt-4 text-pretty text-muted-foreground">
+            Lo que nos consultan antes de empezar. Si te queda alguna duda, escribinos.
           </p>
         </motion.div>
 
-        <div className="space-y-4">
-          {faqs.map((faq, index) => (
-            <motion.div
-              key={index}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.4, delay: index * 0.05 }}
-              className="glass rounded-xl overflow-hidden"
-            >
-              <button
-                onClick={() => setOpenIndex(openIndex === index ? null : index)}
-                className="w-full flex items-center justify-between p-5 text-left"
+        <motion.div
+          initial="hidden"
+          whileInView="visible"
+          viewport={VIEWPORT}
+          variants={fadeUp}
+          className="mt-12"
+        >
+          <Accordion type="single" collapsible className="w-full">
+            {FAQS.map((faq, index) => (
+              <AccordionItem
+                key={faq.question}
+                value={`item-${index}`}
+                className="border-border"
               >
-                <span className="font-medium text-foreground pr-4">{faq.question}</span>
-                <motion.div
-                  animate={{ rotate: openIndex === index ? 180 : 0 }}
-                  transition={{ duration: 0.2 }}
-                >
-                  <ChevronDown className="w-5 h-5 text-muted-foreground flex-shrink-0" />
-                </motion.div>
-              </button>
-              
-              <AnimatePresence>
-                {openIndex === index && (
-                  <motion.div
-                    initial={{ height: 0, opacity: 0 }}
-                    animate={{ height: "auto", opacity: 1 }}
-                    exit={{ height: 0, opacity: 0 }}
-                    transition={{ duration: 0.2 }}
-                  >
-                    <p className="px-5 pb-5 text-muted-foreground">
-                      {faq.answer}
-                    </p>
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </motion.div>
-          ))}
-        </div>
+                <AccordionTrigger className="text-left text-base font-medium hover:no-underline">
+                  {faq.question}
+                </AccordionTrigger>
+                <AccordionContent className="text-pretty leading-relaxed text-muted-foreground">
+                  {faq.answer}
+                </AccordionContent>
+              </AccordionItem>
+            ))}
+          </Accordion>
+        </motion.div>
+
+        <motion.p
+          initial="hidden"
+          whileInView="visible"
+          viewport={VIEWPORT}
+          variants={fadeUp}
+          className="mt-10 text-center text-sm text-muted-foreground"
+        >
+          ¿Tenés otra pregunta?{" "}
+          <a
+            href={waLink("Hola! Tengo una consulta sobre las páginas web.")}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-1.5 font-semibold text-primary underline-offset-4 hover:underline"
+          >
+            <MessageCircle className="h-4 w-4" aria-hidden />
+            Preguntanos por WhatsApp
+          </a>
+        </motion.p>
       </div>
     </section>
   )

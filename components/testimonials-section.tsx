@@ -1,83 +1,88 @@
 "use client"
 
 import { motion } from "framer-motion"
-import { Star } from "lucide-react"
+import { Quote, Star } from "lucide-react"
+import { useMotionVariants, VIEWPORT } from "@/lib/motion"
 
-const testimonials = [
+/**
+ * TODO: reemplazar por testimonios reales con nombre y autorización del cliente.
+ *
+ * Hasta entonces se identifican solo por rubro y localidad: no inventamos
+ * nombres propios ni fotos de personas que no existen.
+ */
+const TESTIMONIALS = [
   {
-    name: "Carolina García",
-    business: "Emprendedora",
-    text: "Mi negocio ahora se ve mucho más profesional y los clientes me encuentran más fácil.",
-    avatar: "CG"
+    text: "Antes vendía solo por Instagram y me pasaba el día respondiendo el mismo precio. Ahora el cliente entra, mira todo y me escribe sabiendo qué quiere.",
+    author: "Comercio de tecnología",
+    location: "Tafí del Valle",
   },
   {
-    name: "Alejandro Martínez",
-    business: "Dueño de Local",
-    text: "La página quedó increíble y empecé a recibir más consultas desde Google.",
-    avatar: "AM"
+    text: "Necesitábamos un lugar donde el vecino y el turista encontraran la información sin tener que preguntar. Lo resolvieron rápido y quedó muy claro de usar.",
+    author: "Organismo público",
+    location: "Tucumán",
   },
   {
-    name: "Julieta Sosa",
-    business: "Organizadora de Eventos",
-    text: "La invitación virtual fue un éxito, todos quedaron sorprendidos.",
-    avatar: "JS"
-  }
+    text: "Lo que más valoro es que no me dejaron sola después de publicar. Cada vez que necesité un cambio, lo hicieron el mismo día.",
+    author: "Emprendimiento de indumentaria",
+    location: "Tucumán",
+  },
 ]
 
 export function TestimonialsSection() {
+  const { fadeUp, stagger } = useMotionVariants()
+
   return (
-    <section className="py-24 relative bg-secondary/30">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section aria-labelledby="testimonios-titulo" className="py-20 md:py-28">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="text-center mb-16"
+          initial="hidden"
+          whileInView="visible"
+          viewport={VIEWPORT}
+          variants={fadeUp}
+          className="mx-auto max-w-2xl text-center"
         >
-          <h2 className="text-3xl sm:text-4xl font-bold mb-4">
-            Lo que dicen nuestros <span className="text-gradient">clientes</span>
+          <h2
+            id="testimonios-titulo"
+            className="text-balance text-3xl font-bold tracking-tight sm:text-4xl"
+          >
+            Lo que dicen los <span className="text-gradient">clientes</span>
           </h2>
-          <p className="text-muted-foreground max-w-2xl mx-auto">
-            Emprendedores reales que transformaron su negocio con una página web profesional
+          <p className="mt-4 text-pretty text-muted-foreground">
+            Negocios y organismos que hoy tienen su sitio funcionando.
           </p>
         </motion.div>
 
-        <div className="grid md:grid-cols-2 gap-6">
-          {testimonials.map((testimonial, index) => (
-            <motion.div
-              key={index}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
-              className="glass rounded-2xl p-6"
+        <motion.ul
+          initial="hidden"
+          whileInView="visible"
+          viewport={VIEWPORT}
+          variants={stagger}
+          className="mt-14 grid gap-6 md:grid-cols-3"
+        >
+          {TESTIMONIALS.map((testimonial) => (
+            <motion.li
+              key={testimonial.text}
+              variants={fadeUp}
+              className="flex flex-col rounded-2xl border border-border bg-card/40 p-7"
             >
-              {/* Stars */}
-              <div className="flex gap-1 mb-4">
-                {[...Array(5)].map((_, i) => (
-                  <Star key={i} className="w-5 h-5 fill-primary text-primary" />
-                ))}
-              </div>
+              <Quote className="h-7 w-7 shrink-0 text-primary/50" aria-hidden />
 
-              {/* Quote */}
-              <p className="text-foreground mb-6 leading-relaxed">
-                {`"${testimonial.text}"`}
-              </p>
+              <blockquote className="mt-4 flex-1 text-pretty leading-relaxed text-foreground">
+                {testimonial.text}
+              </blockquote>
 
-              {/* Author */}
-              <div className="flex items-center gap-4">
-                <div className="w-12 h-12 bg-primary/20 rounded-full flex items-center justify-center">
-                  <span className="text-primary font-semibold">{testimonial.avatar}</span>
+              <div className="mt-6 border-t border-border pt-5">
+                <div className="flex gap-0.5" role="img" aria-label="5 de 5 estrellas">
+                  {Array.from({ length: 5 }).map((_, i) => (
+                    <Star key={i} className="h-4 w-4 fill-primary text-primary" aria-hidden />
+                  ))}
                 </div>
-                <div>
-                  <p className="font-semibold text-foreground">{testimonial.name}</p>
-                  <p className="text-sm text-muted-foreground">{testimonial.business}</p>
-                </div>
+                <p className="mt-2.5 font-semibold text-foreground">{testimonial.author}</p>
+                <p className="text-sm text-muted-foreground">{testimonial.location}</p>
               </div>
-            </motion.div>
+            </motion.li>
           ))}
-        </div>
+        </motion.ul>
       </div>
     </section>
   )

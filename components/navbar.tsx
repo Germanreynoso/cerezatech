@@ -1,53 +1,130 @@
 "use client"
 
-import { motion } from "framer-motion"
-import { Zap } from "lucide-react"
+import { useState } from "react"
+import { Menu, MessageCircle } from "lucide-react"
+import { Sheet, SheetContent, SheetTitle, SheetTrigger } from "@/components/ui/sheet"
+import { BrandLogo, BrandWordmark } from "@/components/brand-logo"
+import { useScrollSpy, useScrolled } from "@/hooks/use-scroll-spy"
+import { NAV_LINKS, waLink } from "@/lib/site-config"
+import { cn } from "@/lib/utils"
 
-export function Navbar() {
+const SECTION_IDS = NAV_LINKS.map((l) => l.href.slice(1))
+
+const WA_MESSAGE = "Hola! Quiero información sobre una página web para mi negocio."
+
+export function Navbar({ onMenuOpenChange }: { onMenuOpenChange?: (open: boolean) => void }) {
+  const [open, setOpen] = useState(false)
+  const scrolled = useScrolled()
+  const active = useScrollSpy(SECTION_IDS)
+
+  function handleOpenChange(next: boolean) {
+    setOpen(next)
+    onMenuOpenChange?.(next)
+  }
+
   return (
-    <motion.nav
-      initial={{ y: -100 }}
-      animate={{ y: 0 }}
-      transition={{ duration: 0.5 }}
-      className="fixed top-0 left-0 right-0 z-50 glass"
+    <header
+      className={cn(
+        "fixed inset-x-0 top-0 z-50 transition-colors duration-300",
+        scrolled
+          ? "border-b border-border bg-background/85 backdrop-blur-xl"
+          : "border-b border-transparent bg-transparent"
+      )}
     >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16">
-          <div className="flex items-center gap-2">
-            <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
-              <Zap className="w-5 h-5 text-primary-foreground" />
-            </div>
-            <span className="text-xl font-bold text-foreground">Al Toque Web</span>
-          </div>
-          
-          <div className="hidden md:flex items-center gap-8">
-            <a href="#beneficios" className="text-muted-foreground hover:text-foreground transition-colors">
-              Beneficios
-            </a>
-            <a href="#portfolio" className="text-muted-foreground hover:text-foreground transition-colors">
-              Portfolio
-            </a>
-            <a href="#invitaciones" className="text-muted-foreground hover:text-foreground transition-colors">
-              Invitaciones
-            </a>
-            <a href="#planes" className="text-muted-foreground hover:text-foreground transition-colors">
-              Planes
-            </a>
-            <a href="#faq" className="text-muted-foreground hover:text-foreground transition-colors">
-              FAQ
-            </a>
-          </div>
+      <nav
+        aria-label="Principal"
+        className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8"
+      >
+        <a href="#inicio" className="rounded-lg" aria-label="Luckywebs, ir al inicio">
+          <BrandLogo size={36} />
+        </a>
 
+        <ul className="hidden items-center gap-1 md:flex">
+          {NAV_LINKS.map((link) => {
+            const isActive = active === link.href.slice(1)
+            return (
+              <li key={link.href}>
+                <a
+                  href={link.href}
+                  aria-current={isActive ? "true" : undefined}
+                  className={cn(
+                    "rounded-lg px-3 py-2 text-sm font-medium transition-colors",
+                    isActive
+                      ? "text-primary"
+                      : "text-muted-foreground hover:text-foreground"
+                  )}
+                >
+                  {link.label}
+                </a>
+              </li>
+            )
+          })}
+        </ul>
+
+        <div className="flex items-center gap-2">
           <a
-            href="https://wa.me/1234567890"
+            href={waLink(WA_MESSAGE)}
             target="_blank"
             rel="noopener noreferrer"
-            className="bg-primary text-primary-foreground px-4 py-2 rounded-lg font-medium hover:opacity-90 transition-opacity"
+            className="hidden items-center gap-2 rounded-xl bg-primary px-4 py-2.5 text-sm font-semibold text-primary-foreground transition-opacity hover:opacity-90 sm:inline-flex"
           >
-            Contactar
+            <MessageCircle className="h-4 w-4" aria-hidden />
+            Hablar por WhatsApp
           </a>
+
+          <Sheet open={open} onOpenChange={handleOpenChange}>
+            <SheetTrigger asChild>
+              <button
+                type="button"
+                aria-label="Abrir menú"
+                className="inline-flex h-10 w-10 items-center justify-center rounded-lg border border-border text-foreground transition-colors hover:bg-secondary md:hidden"
+              >
+                <Menu className="h-5 w-5" aria-hidden />
+              </button>
+            </SheetTrigger>
+
+            <SheetContent side="right" className="w-[min(20rem,85vw)] border-border bg-background p-0">
+              <SheetTitle className="sr-only">Menú de navegación</SheetTitle>
+
+              <div className="flex h-full flex-col">
+                <div className="border-b border-border px-6 py-5">
+                  <BrandLogo size={36} />
+                </div>
+
+                <ul className="flex flex-1 flex-col gap-1 px-4 py-6">
+                  {NAV_LINKS.map((link) => (
+                    <li key={link.href}>
+                      <a
+                        href={link.href}
+                        onClick={() => handleOpenChange(false)}
+                        className="block rounded-xl px-4 py-3 text-base font-medium text-foreground transition-colors hover:bg-secondary"
+                      >
+                        {link.label}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+
+                <div className="border-t border-border p-4">
+                  <a
+                    href={waLink(WA_MESSAGE)}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={() => handleOpenChange(false)}
+                    className="flex items-center justify-center gap-2 rounded-xl bg-primary px-4 py-3.5 text-base font-semibold text-primary-foreground"
+                  >
+                    <MessageCircle className="h-5 w-5" aria-hidden />
+                    Hablar por WhatsApp
+                  </a>
+                  <p className="mt-3 text-center text-xs text-muted-foreground">
+                    <BrandWordmark /> · Respondemos el mismo día
+                  </p>
+                </div>
+              </div>
+            </SheetContent>
+          </Sheet>
         </div>
-      </div>
-    </motion.nav>
+      </nav>
+    </header>
   )
 }

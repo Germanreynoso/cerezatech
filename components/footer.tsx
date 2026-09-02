@@ -1,138 +1,94 @@
-"use client"
-
-import { motion } from "framer-motion"
-import { Zap, MessageCircle, Instagram, ArrowRight } from "lucide-react"
+import { Instagram, Mail, MapPin, MessageCircle } from "lucide-react"
+import { BrandLogo } from "@/components/brand-logo"
+import { CONTACT, NAV_LINKS, SITE, waLink } from "@/lib/site-config"
 
 export function Footer() {
+  const year = new Date().getFullYear()
+
   return (
-    <footer className="py-16 relative">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* CTA Section */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="glass rounded-3xl p-8 md:p-12 text-center mb-16 relative overflow-hidden"
-        >
-          {/* Background glow */}
-          <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-transparent to-primary/5" />
-          
-          <div className="relative z-10">
-            <h2 className="text-2xl md:text-4xl font-bold text-foreground mb-4 text-balance">
-              Tu negocio merece <span className="text-gradient">verse profesional.</span>
-            </h2>
-            <p className="text-muted-foreground mb-8 max-w-xl mx-auto">
-              Empezá hoy a construir tu presencia online y conseguí más clientes.
-            </p>
-            <motion.a
-              href="https://wa.me/1234567890"
-              target="_blank"
-              rel="noopener noreferrer"
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
-              className="inline-flex items-center gap-2 bg-primary text-primary-foreground px-8 py-4 rounded-xl font-semibold hover:opacity-90 transition-all glow-yellow"
-            >
-              Contactate ahora
-              <ArrowRight className="w-5 h-5" />
-            </motion.a>
-          </div>
-        </motion.div>
-
-        {/* Footer content */}
-        <div className="grid md:grid-cols-4 gap-8 mb-12">
-          {/* Logo & description */}
-          <div className="md:col-span-2">
-            <div className="flex items-center gap-2 mb-4">
-              <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
-                <Zap className="w-5 h-5 text-primary-foreground" />
-              </div>
-              <span className="text-xl font-bold text-foreground">Al Toque Web</span>
-            </div>
-            <p className="text-muted-foreground max-w-sm mb-6">
-              Diseño web moderno para emprendedores y negocios.
-            </p>
-            <div className="flex gap-4">
-              <a
-                href="https://wa.me/1234567890"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-10 h-10 bg-secondary rounded-lg flex items-center justify-center hover:bg-primary/20 transition-colors"
-              >
-                <MessageCircle className="w-5 h-5 text-foreground" />
-              </a>
-              <a
-                href="https://instagram.com/tuwebaltoque"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-10 h-10 bg-secondary rounded-lg flex items-center justify-center hover:bg-primary/20 transition-colors"
-              >
-                <Instagram className="w-5 h-5 text-foreground" />
-              </a>
-            </div>
-          </div>
-
-          {/* Quick links */}
+    <footer className="border-t border-border bg-card">
+      <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
+        <div className="grid gap-10 md:grid-cols-3">
           <div>
-            <h4 className="font-semibold text-foreground mb-4">Links rápidos</h4>
-            <ul className="space-y-3">
-              <li>
-                <a href="#beneficios" className="text-muted-foreground hover:text-foreground transition-colors">
-                  Beneficios
-                </a>
-              </li>
-              <li>
-                <a href="#portfolio" className="text-muted-foreground hover:text-foreground transition-colors">
-                  Portfolio
-                </a>
-              </li>
-              <li>
-                <a href="#planes" className="text-muted-foreground hover:text-foreground transition-colors">
-                  Planes
-                </a>
-              </li>
-              <li>
-                <a href="#faq" className="text-muted-foreground hover:text-foreground transition-colors">
-                  FAQ
-                </a>
-              </li>
+            <BrandLogo size={44} showTagline />
+            <p className="mt-5 max-w-xs text-sm leading-relaxed text-muted-foreground">
+              {SITE.description}
+            </p>
+            <p className="mt-5 flex items-start gap-2 text-sm text-muted-foreground">
+              <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-primary" aria-hidden />
+              {CONTACT.coverage}
+            </p>
+          </div>
+
+          <nav aria-label="Pie de página">
+            <h2 className="text-sm font-semibold text-foreground">Navegación</h2>
+            <ul className="mt-4 space-y-3">
+              {NAV_LINKS.map((link) => (
+                <li key={link.href}>
+                  <a
+                    href={link.href}
+                    className="text-sm text-muted-foreground transition-colors hover:text-foreground"
+                  >
+                    {link.label}
+                  </a>
+                </li>
+              ))}
             </ul>
-          </div>
+          </nav>
 
-          {/* Contact */}
           <div>
-            <h4 className="font-semibold text-foreground mb-4">Contacto</h4>
-            <ul className="space-y-3">
+            <h2 className="text-sm font-semibold text-foreground">Contacto</h2>
+            <ul className="mt-4 space-y-3">
               <li>
                 <a
-                  href="https://wa.me/1234567890"
+                  href={waLink("Hola! Quiero información sobre una página web.")}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-muted-foreground hover:text-foreground transition-colors"
+                  className="flex items-center gap-2.5 text-sm text-muted-foreground transition-colors hover:text-foreground"
                 >
-                  WhatsApp
+                  <MessageCircle className="h-4 w-4 shrink-0 text-primary" aria-hidden />
+                  {CONTACT.whatsappDisplay}
                 </a>
               </li>
               <li>
                 <a
-                  href="mailto:hola@tuwebaltoque.com"
-                  className="text-muted-foreground hover:text-foreground transition-colors"
+                  href={`mailto:${CONTACT.email}`}
+                  className="flex items-center gap-2.5 text-sm text-muted-foreground transition-colors hover:text-foreground"
                 >
-                  hola@tuwebaltoque.com
+                  <Mail className="h-4 w-4 shrink-0 text-primary" aria-hidden />
+                  <span className="break-all">{CONTACT.email}</span>
+                </a>
+              </li>
+              <li>
+                <a
+                  href={CONTACT.instagramUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-2.5 text-sm text-muted-foreground transition-colors hover:text-foreground"
+                >
+                  <Instagram className="h-4 w-4 shrink-0 text-primary" aria-hidden />
+                  @{CONTACT.instagram}
                 </a>
               </li>
             </ul>
+
+            <a
+              href={waLink("Hola! Quiero un presupuesto para mi página web.")}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="mt-6 inline-flex items-center gap-2 rounded-xl bg-primary px-5 py-3 text-sm font-semibold text-primary-foreground transition-opacity hover:opacity-90"
+            >
+              <MessageCircle className="h-4 w-4" aria-hidden />
+              Pedir presupuesto
+            </a>
           </div>
         </div>
 
-        {/* Bottom bar */}
-        <div className="border-t border-border pt-8 text-center">
-          <p className="text-muted-foreground mb-2">
-            Tu presencia digital importa más de lo que pensás.
-          </p>
+        <div className="mt-12 flex flex-col items-center justify-between gap-3 border-t border-border pt-8 sm:flex-row">
           <p className="text-sm text-muted-foreground">
-            © {new Date().getFullYear()} Al Toque Web. Todos los derechos reservados.
+            © {year} {SITE.name}. Todos los derechos reservados.
           </p>
+          <p className="text-sm text-muted-foreground">{SITE.tagline}</p>
         </div>
       </div>
     </footer>

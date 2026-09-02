@@ -1,129 +1,119 @@
 "use client"
 
 import { motion } from "framer-motion"
-import { Check, Sparkles } from "lucide-react"
-
-const plans = [
-  {
-    name: "Básico",
-    price: "$200.000",
-    period: "ARS",
-    description: "Ideal para empezar.",
-    features: [
-      "Landing simple",
-      "WhatsApp",
-      "Diseño responsive",
-      "Información del negocio"
-    ],
-    featured: false,
-    buttonText: "Empezar"
-  },
-  {
-    name: "Profesional",
-    price: "$350.000",
-    period: "ARS",
-    description: "El más elegido.",
-    features: [
-      "Todo lo del básico",
-      "Catálogo de productos",
-      "Optimización Google",
-      "Animaciones modernas"
-    ],
-    featured: true,
-    buttonText: "Quiero este"
-  },
-  {
-    name: "Premium",
-    price: "$500.000",
-    period: "+ ARS",
-    description: "Para negocios que quieren destacar.",
-    features: [
-      "Todo lo anterior",
-      "Tienda online",
-      "Diseño personalizado",
-      "Soporte prioritario",
-      "Extras premium"
-    ],
-    featured: false,
-    buttonText: "Llevar mi negocio al siguiente nivel"
-  }
-]
+import { Check } from "lucide-react"
+import { useMotionVariants, VIEWPORT } from "@/lib/motion"
+import { PLANS, waLink } from "@/lib/site-config"
+import { cn } from "@/lib/utils"
 
 export function PricingSection() {
+  const { fadeUp, stagger } = useMotionVariants()
+
   return (
-    <section id="planes" className="py-24 relative">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section id="planes" aria-labelledby="planes-titulo" className="py-20 md:py-28">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="text-center mb-16"
+          initial="hidden"
+          whileInView="visible"
+          viewport={VIEWPORT}
+          variants={fadeUp}
+          className="mx-auto max-w-2xl text-center"
         >
-          <h2 className="text-3xl sm:text-4xl font-bold mb-4">
-            Planes que se adaptan a <span className="text-gradient">tu negocio</span>
+          <h2
+            id="planes-titulo"
+            className="text-balance text-3xl font-bold tracking-tight sm:text-4xl"
+          >
+            Planes <span className="text-gradient">claros</span>, sin letra chica
           </h2>
-          <p className="text-muted-foreground max-w-2xl mx-auto">
-            Elegí el plan perfecto para tu emprendimiento. Todos incluyen diseño profesional y soporte personalizado.
+          <p className="mt-4 text-pretty text-muted-foreground">
+            Pago único por el desarrollo. Todos los planes incluyen dominio y hosting el primer
+            año.
           </p>
         </motion.div>
 
-        <div className="grid md:grid-cols-3 gap-8">
-          {plans.map((plan, index) => (
+        <motion.div
+          initial="hidden"
+          whileInView="visible"
+          viewport={VIEWPORT}
+          variants={stagger}
+          className="mt-14 grid items-start gap-6 lg:grid-cols-3"
+        >
+          {PLANS.map((plan) => (
             <motion.div
-              key={index}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
-              className={`relative glass rounded-2xl p-8 ${plan.featured ? 'border-2 border-primary glow-yellow' : ''}`}
+              key={plan.name}
+              variants={fadeUp}
+              className={cn(
+                "relative flex h-full flex-col rounded-2xl border p-8",
+                plan.featured
+                  ? "border-primary/45 bg-card lg:-mt-4 lg:pb-10 lg:pt-12"
+                  : "border-border bg-card/40"
+              )}
             >
               {plan.featured && (
-                <div className="absolute -top-4 left-1/2 -translate-x-1/2">
-                  <div className="bg-primary text-primary-foreground px-4 py-1 rounded-full text-sm font-semibold flex items-center gap-2">
-                    <Sparkles className="w-4 h-4" />
-                    Más popular
-                  </div>
-                </div>
+                <span className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-primary px-4 py-1 text-xs font-bold uppercase tracking-wider text-primary-foreground">
+                  Más elegido
+                </span>
               )}
 
-              <div className="text-center mb-8">
-                <h3 className="text-xl font-semibold text-foreground mb-2">{plan.name}</h3>
-                <p className="text-sm text-muted-foreground mb-4">{plan.description}</p>
-                <div className="flex items-baseline justify-center gap-1">
-                  <span className="text-4xl font-bold text-foreground">{plan.price}</span>
-                  <span className="text-muted-foreground">/{plan.period}</span>
-                </div>
-              </div>
+              <h3 className="text-lg font-semibold text-foreground">{plan.name}</h3>
+              <p className="mt-1 text-sm text-muted-foreground">{plan.audience}</p>
 
-              <ul className="space-y-4 mb-8">
-                {plan.features.map((feature, i) => (
-                  <li key={i} className="flex items-start gap-3">
-                    <div className={`w-5 h-5 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5 ${plan.featured ? 'bg-primary' : 'bg-primary/20'}`}>
-                      <Check className={`w-3 h-3 ${plan.featured ? 'text-primary-foreground' : 'text-primary'}`} />
-                    </div>
-                    <span className="text-sm text-muted-foreground">{feature}</span>
+              <p className="mt-6 flex items-baseline gap-2">
+                <span className="text-4xl font-bold tracking-tight text-foreground">
+                  {plan.price}
+                </span>
+                <span className="text-sm text-muted-foreground">pago único</span>
+              </p>
+
+              <p className="mt-4 text-sm leading-relaxed text-muted-foreground">
+                {plan.description}
+              </p>
+
+              <ul className="mt-7 flex-1 space-y-3.5">
+                {plan.features.map((feature) => (
+                  <li key={feature} className="flex items-start gap-3 text-sm">
+                    <Check className="mt-0.5 h-4 w-4 shrink-0 text-primary" aria-hidden />
+                    <span className="text-muted-foreground">{feature}</span>
                   </li>
                 ))}
               </ul>
 
-              <motion.a
-                href="https://wa.me/1234567890"
+              <a
+                href={waLink(
+                  `Hola! Me interesa el plan ${plan.name} (${plan.price}). ¿Me pasás más información?`
+                )}
                 target="_blank"
                 rel="noopener noreferrer"
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
-                className={`block w-full text-center py-3 rounded-xl font-semibold transition-all ${
+                className={cn(
+                  "mt-8 inline-flex items-center justify-center rounded-xl px-5 py-3.5 font-semibold transition-all",
                   plan.featured
-                    ? 'bg-primary text-primary-foreground hover:opacity-90'
-                    : 'bg-secondary text-foreground hover:bg-secondary/80'
-                }`}
+                    ? "glow-gold bg-primary text-primary-foreground hover:opacity-90"
+                    : "border border-border text-foreground hover:border-primary hover:text-primary"
+                )}
               >
-                {plan.buttonText}
-              </motion.a>
+                Quiero el plan {plan.name}
+              </a>
             </motion.div>
           ))}
-        </div>
+        </motion.div>
+
+        <motion.p
+          initial="hidden"
+          whileInView="visible"
+          viewport={VIEWPORT}
+          variants={fadeUp}
+          className="mt-10 text-center text-sm text-muted-foreground"
+        >
+          ¿Tu proyecto no entra en ninguno?{" "}
+          <a
+            href={waLink("Hola! Tengo un proyecto que no entra en los planes. ¿Lo charlamos?")}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="font-semibold text-primary underline-offset-4 hover:underline"
+          >
+            Armamos un presupuesto a medida
+          </a>
+        </motion.p>
       </div>
     </section>
   )

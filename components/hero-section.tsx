@@ -1,171 +1,179 @@
 "use client"
 
-import { motion } from "framer-motion"
-import { ArrowRight, MessageCircle, TrendingUp, Users, ShoppingCart, Monitor, Smartphone } from "lucide-react"
+import { useEffect, useState } from "react"
+import { AnimatePresence, motion } from "framer-motion"
+import { ArrowRight, Check, MessageCircle } from "lucide-react"
+import { BrowserFrame } from "@/components/browser-frame"
+import { useMotionVariants } from "@/lib/motion"
+import { VISIBLE_PROJECTS, projectShot, waLink } from "@/lib/site-config"
+
+const TRUST_POINTS = [
+  "Entrega en 7 días",
+  "Dominio y hosting incluidos",
+  "Soporte post-lanzamiento",
+]
+
+const WA_MESSAGE = "Hola! Quiero información sobre una página web para mi negocio."
+
+/** Quita el protocolo y la barra final para mostrar el dominio en la barra del navegador. */
+function domainOf(url: string): string {
+  return url.replace(/^https?:\/\//, "").replace(/\/$/, "")
+}
 
 export function HeroSection() {
+  const { reduced, fadeUp, stagger } = useMotionVariants()
+  const [index, setIndex] = useState(0)
+  const projects = VISIBLE_PROJECTS
+
+  // Rota entre los proyectos disponibles. Con uno solo no hay nada que rotar,
+  // y con movimiento reducido la rotación se desactiva por completo.
+  useEffect(() => {
+    if (reduced || projects.length < 2) return
+    const id = setInterval(() => {
+      setIndex((i) => (i + 1) % projects.length)
+    }, 5000)
+    return () => clearInterval(id)
+  }, [reduced, projects.length])
+
+  const current = projects[index]
+
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden pt-16">
-      {/* Background gradient */}
-      <div className="absolute inset-0 bg-gradient-to-br from-background via-background to-secondary" />
-      
-      {/* Glow effects */}
-      <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-primary/20 rounded-full blur-3xl animate-glow" />
-      <div className="absolute bottom-1/4 right-1/4 w-72 h-72 bg-primary/10 rounded-full blur-3xl animate-glow" style={{ animationDelay: '1s' }} />
-      
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
-        <div className="grid lg:grid-cols-2 gap-12 items-center">
-          {/* Left content */}
-          <motion.div
-            initial={{ opacity: 0, x: -50 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8 }}
+    <section
+      id="inicio"
+      className="relative flex min-h-[92svh] items-center overflow-hidden pt-24 pb-16 md:pt-28"
+    >
+      {/* Halo dorado de fondo. Estático: no consume presupuesto de animación. */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute -top-40 left-1/2 h-[36rem] w-[36rem] -translate-x-1/2 rounded-full bg-primary/12 blur-[120px]"
+      />
+      <div
+        aria-hidden
+        className="pointer-events-none absolute bottom-0 right-0 h-[28rem] w-[28rem] translate-x-1/3 rounded-full bg-primary/8 blur-[120px]"
+      />
+
+      <div className="relative z-10 mx-auto grid w-full max-w-7xl gap-14 px-4 sm:px-6 lg:grid-cols-[1.05fr_1fr] lg:items-center lg:gap-12 lg:px-8">
+        <motion.div initial="hidden" animate="visible" variants={stagger}>
+          <motion.p
+            variants={fadeUp}
+            className="inline-flex items-center gap-2 rounded-full border border-border bg-card/60 px-4 py-1.5 text-sm text-muted-foreground backdrop-blur"
           >
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.2 }}
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-full glass mb-6"
+            <span className="relative flex h-2 w-2">
+              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-green-400 opacity-75" />
+              <span className="relative inline-flex h-2 w-2 rounded-full bg-green-400" />
+            </span>
+            Sitios reales, funcionando hoy
+          </motion.p>
+
+          <motion.h1
+            variants={fadeUp}
+            className="mt-6 text-balance text-4xl font-bold leading-[1.08] tracking-tight sm:text-5xl lg:text-6xl"
+          >
+            Tu negocio necesita una web que{" "}
+            <span className="text-gradient">venda</span>, no una que solo exista.
+          </motion.h1>
+
+          <motion.p
+            variants={fadeUp}
+            className="mt-6 max-w-xl text-pretty text-lg leading-relaxed text-muted-foreground"
+          >
+            Diseñamos y publicamos páginas web rápidas, que se ven bien en cualquier celular y
+            convierten visitas en clientes por WhatsApp.
+          </motion.p>
+
+          <motion.div variants={fadeUp} className="mt-9 flex flex-col gap-3 sm:flex-row">
+            <a
+              href="#planes"
+              className="glow-gold inline-flex items-center justify-center gap-2 rounded-xl bg-primary px-6 py-3.5 font-semibold text-primary-foreground transition-opacity hover:opacity-90"
             >
-              <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse" />
-              <span className="text-sm text-muted-foreground">+50 emprendedores confían en nosotros</span>
-            </motion.div>
-
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold leading-tight mb-6">
-              <span className="text-foreground">Hacemos que tu negocio se vea </span>
-              <span className="text-gradient">profesional</span>
-              <span className="text-foreground"> y consiga más clientes.</span>
-            </h1>
-
-            <p className="text-lg text-muted-foreground mb-8 max-w-lg">
-              Creamos páginas web modernas, rápidas y accesibles para emprendedores y negocios que quieren crecer en internet.
-            </p>
-
-            <div className="flex flex-col sm:flex-row gap-4">
-              <motion.a
-                href="#planes"
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
-                className="inline-flex items-center justify-center gap-2 bg-primary text-primary-foreground px-6 py-3 rounded-xl font-semibold hover:opacity-90 transition-all glow-yellow"
-              >
-                Quiero mi página web
-                <ArrowRight className="w-5 h-5" />
-              </motion.a>
-              
-              <motion.a
-                href="https://wa.me/1234567890"
-                target="_blank"
-                rel="noopener noreferrer"
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
-                className="inline-flex items-center justify-center gap-2 glass px-6 py-3 rounded-xl font-semibold text-foreground hover:bg-secondary/50 transition-all"
-              >
-                <MessageCircle className="w-5 h-5" />
-                Hablar por WhatsApp
-              </motion.a>
-            </div>
+              Quiero mi página web
+              <ArrowRight className="h-5 w-5" aria-hidden />
+            </a>
+            <a
+              href="#trabajos"
+              className="glass inline-flex items-center justify-center gap-2 rounded-xl px-6 py-3.5 font-semibold text-foreground transition-colors hover:bg-secondary"
+            >
+              Ver trabajos
+            </a>
           </motion.div>
 
-          {/* Right content - Mockup */}
-          <motion.div
-            initial={{ opacity: 0, x: 50 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8, delay: 0.3 }}
-            className="relative"
+          <motion.ul
+            variants={fadeUp}
+            className="mt-8 flex flex-wrap gap-x-6 gap-y-2.5 text-sm text-muted-foreground"
           >
-            {/* Device mockups */}
-            <div className="relative">
-              {/* Laptop mockup */}
-              <motion.div
-                animate={{ y: [0, -10, 0] }}
-                transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-                className="relative z-10"
-              >
-                <div className="bg-secondary rounded-2xl p-3 shadow-2xl">
-                  <div className="bg-card rounded-lg overflow-hidden">
-                    <div className="flex items-center gap-2 px-4 py-2 bg-muted">
-                      <div className="w-3 h-3 rounded-full bg-red-400" />
-                      <div className="w-3 h-3 rounded-full bg-yellow-400" />
-                      <div className="w-3 h-3 rounded-full bg-green-400" />
-                    </div>
-                    <div className="p-4 space-y-3">
-                      <div className="h-4 bg-primary/30 rounded w-3/4" />
-                      <div className="h-3 bg-muted rounded w-full" />
-                      <div className="h-3 bg-muted rounded w-2/3" />
-                      <div className="grid grid-cols-3 gap-2 mt-4">
-                        <div className="h-16 bg-primary/20 rounded" />
-                        <div className="h-16 bg-primary/20 rounded" />
-                        <div className="h-16 bg-primary/20 rounded" />
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </motion.div>
+            {TRUST_POINTS.map((point) => (
+              <li key={point} className="flex items-center gap-2">
+                <Check className="h-4 w-4 shrink-0 text-primary" aria-hidden />
+                {point}
+              </li>
+            ))}
+          </motion.ul>
 
-              {/* Phone mockup */}
+          <motion.a
+            variants={fadeUp}
+            href={waLink(WA_MESSAGE)}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="mt-7 inline-flex items-center gap-2 text-sm font-medium text-muted-foreground underline-offset-4 transition-colors hover:text-primary hover:underline"
+          >
+            <MessageCircle className="h-4 w-4" aria-hidden />
+            ¿Dudas? Escribinos por WhatsApp, respondemos el mismo día
+          </motion.a>
+        </motion.div>
+
+        {current && (
+          <motion.div
+            initial="hidden"
+            animate="visible"
+            variants={fadeUp}
+            className="relative lg:pl-4"
+          >
+            {/* Imagen y epígrafe comparten el mismo `key`: con `mode="wait"` el
+                epígrafe cambiaría antes que la captura y quedarían desfasados. */}
+            <AnimatePresence mode="wait">
               <motion.div
-                animate={{ y: [0, -8, 0] }}
-                transition={{ duration: 3.5, repeat: Infinity, ease: "easeInOut", delay: 0.5 }}
-                className="absolute -bottom-8 -right-4 z-20 w-32"
+                key={current.slug}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: reduced ? 0 : 0.4 }}
               >
-                <div className="bg-secondary rounded-2xl p-2 shadow-2xl">
-                  <div className="bg-card rounded-xl overflow-hidden">
-                    <div className="w-8 h-1 bg-muted mx-auto mt-2 rounded-full" />
-                    <div className="p-3 space-y-2">
-                      <div className="h-3 bg-primary/30 rounded w-full" />
-                      <div className="h-2 bg-muted rounded w-3/4" />
-                      <div className="h-8 bg-primary/20 rounded mt-2" />
-                      <div className="h-8 bg-primary/20 rounded" />
-                    </div>
-                  </div>
-                </div>
+                <BrowserFrame
+                  src={projectShot(current.slug, "desktop")}
+                  alt={`Sitio web de ${current.name} hecho por Luckywebs`}
+                  label={domainOf(current.url)}
+                  priority
+                  sizes="(min-width: 1024px) 46vw, 92vw"
+                />
+                <p className="mt-4 text-sm text-muted-foreground">
+                  <span className="font-medium text-foreground">{current.name}</span>
+                  {" · "}
+                  {current.category}
+                </p>
               </motion.div>
+            </AnimatePresence>
+
+            <div className="-mt-6 flex justify-end">
+              {projects.length > 1 && (
+                <div className="flex gap-2" role="tablist" aria-label="Proyectos destacados">
+                  {projects.map((project, i) => (
+                    <button
+                      key={project.slug}
+                      type="button"
+                      role="tab"
+                      aria-selected={i === index}
+                      aria-label={`Ver ${project.name}`}
+                      onClick={() => setIndex(i)}
+                      className={`h-2 rounded-full transition-all ${
+                        i === index ? "w-6 bg-primary" : "w-2 bg-border hover:bg-muted-foreground"
+                      }`}
+                    />
+                  ))}
+                </div>
+              )}
             </div>
-
-            {/* Floating metric cards */}
-            <motion.div
-              animate={{ y: [0, -5, 0] }}
-              transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut" }}
-              className="absolute -top-4 -left-4 glass rounded-xl p-3 flex items-center gap-3"
-            >
-              <div className="w-10 h-10 bg-primary/20 rounded-lg flex items-center justify-center">
-                <TrendingUp className="w-5 h-5 text-primary" />
-              </div>
-              <div>
-                <p className="text-xs text-muted-foreground">Visibilidad</p>
-                <p className="font-bold text-foreground">+120%</p>
-              </div>
-            </motion.div>
-
-            <motion.div
-              animate={{ y: [0, -5, 0] }}
-              transition={{ duration: 2.8, repeat: Infinity, ease: "easeInOut", delay: 0.3 }}
-              className="absolute top-1/3 -right-8 glass rounded-xl p-3 flex items-center gap-3"
-            >
-              <div className="w-10 h-10 bg-primary/20 rounded-lg flex items-center justify-center">
-                <Users className="w-5 h-5 text-primary" />
-              </div>
-              <div>
-                <p className="text-xs text-muted-foreground">Clientes</p>
-                <p className="font-bold text-foreground">+85%</p>
-              </div>
-            </motion.div>
-
-            <motion.div
-              animate={{ y: [0, -5, 0] }}
-              transition={{ duration: 3, repeat: Infinity, ease: "easeInOut", delay: 0.6 }}
-              className="absolute bottom-1/4 -left-8 glass rounded-xl p-3 flex items-center gap-3"
-            >
-              <div className="w-10 h-10 bg-primary/20 rounded-lg flex items-center justify-center">
-                <ShoppingCart className="w-5 h-5 text-primary" />
-              </div>
-              <div>
-                <p className="text-xs text-muted-foreground">Ventas</p>
-                <p className="font-bold text-foreground">+200%</p>
-              </div>
-            </motion.div>
           </motion.div>
-        </div>
+        )}
       </div>
     </section>
   )

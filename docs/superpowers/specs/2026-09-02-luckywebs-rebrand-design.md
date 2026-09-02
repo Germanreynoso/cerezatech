@@ -414,3 +414,65 @@ Cada etapa deja el sitio en estado compilable.
 | Recorte del isotipo desde JPEG queda sucio | El isotipo va dentro de un badge circular crema, que coincide con el fondo del logo original; el borde del recorte no se percibe |
 | Los sitios reales cambian y los screenshots quedan viejos | El script de captura queda versionado en `scripts/`, re-ejecutable en cualquier momento |
 | Email e Instagram sin confirmar | Marcados `TODO` en un único archivo; cambiarlos es una línea cada uno |
+
+---
+
+## 12. Desviaciones durante la implementación
+
+Cambios respecto de lo especificado arriba, con su razón.
+
+### Se elimina también "Antes / Después"
+
+El spec (§5.9) preveía conservar `before-after-section`. Al implementarla junto a la nueva
+sección Problema → Solución (§5.4) quedó claro que ambas hacen el mismo argumento —dos listas
+contrapuestas de "sin web / con web"— con distinta redacción. Repetir el mismo razonamiento a
+dos secciones de distancia lo debilita en lugar de reforzarlo, así que se eliminó
+`before-after-section.tsx`. La landing queda en 12 secciones más footer.
+
+### Movimiento reducido: la opacidad inicial no puede depender de la preferencia
+
+El intento de dejar el contenido visible desde el arranque para quien pide movimiento
+reducido (`hidden: { opacity: reduced ? 1 : 0 }`) provoca un error de hidratación:
+`useReducedMotion` devuelve `false` en el servidor y el valor real recién tras hidratar, así
+que el HTML servido y el cliente discrepan.
+
+El estado `hidden` es lo único que llega al HTML del servidor, de modo que **no puede
+depender de `reduced`** — ni la opacidad ni la distancia. Solo varía la transición: con
+movimiento reducido dura 0 y el contenido aparece de golpe al entrar en viewport, sin
+desplazamiento perceptible. Verificado: 0 errores de consola y 0 animaciones en curso con
+`prefers-reduced-motion: reduce`.
+
+### Desborde lateral por las variants horizontales
+
+`fadeLeft` / `fadeRight` desplazaban 24 px en horizontal, y mientras la sección no entraba en
+viewport ese desplazamiento producía scroll lateral en mobile (368 px contra 360 de
+viewport). Se eliminaron ambas variants: todas las secciones entran con `fadeUp`. Como red de
+seguridad, `html` lleva `overflow-x: clip` — `clip` y no `hidden`, que rompería el
+`position: sticky` del navbar.
+
+### Epígrafe del hero desincronizado
+
+Con `AnimatePresence mode="wait"` la imagen espera a que salga la anterior, pero el epígrafe
+—que estaba fuera del bloque animado— cambiaba de inmediato: durante la transición se veía la
+captura de un proyecto con el nombre de otro. Captura y epígrafe pasaron a compartir el mismo
+`key` dentro del bloque animado.
+
+## 13. Resultado de la verificación
+
+Ejecutada sobre el sitio corriendo, 2026-09-02.
+
+| Chequeo | Resultado |
+|---|---|
+| `npm run build` | Correcto. 4 rutas estáticas: `/`, `/_not-found`, `/robots.txt`, `/sitemap.xml` |
+| `npx tsc --noEmit` | Sin errores |
+| Residuos de eventos y marca vieja | Ninguno (`invitacion`, `RSVP`, `al toque`, `tuwebaltoque`, `cerezatech`, `1234567890`) |
+| `<img>` crudo | Ninguno; todo pasa por `next/image` |
+| Animaciones infinitas | 1 en la página (el punto del badge del hero), contra 8 antes |
+| Scroll horizontal | Ninguno a 375, 768 ni 1440 px |
+| Contraste WCAG AA | 189 nodos de texto evaluados, 0 fallos |
+| Movimiento reducido | 0 elementos invisibles, 0 animaciones en curso |
+| Errores de consola | Ninguno, con y sin movimiento reducido |
+| Menú mobile | Abre, navega y cierra a 375 px |
+| FAB de WhatsApp | Aparece después de 400 px, oculto con el menú abierto |
+| URLs de proyectos | Ambas responden 200 |
+| Peso de imágenes | 191 KB los cuatro screenshots, contra 5,5 MB de assets eliminados |

@@ -1,96 +1,105 @@
 "use client"
 
 import { motion } from "framer-motion"
-import { Search, MessageCircle, Smartphone, ShoppingBag, MapPin, Shield } from "lucide-react"
+import {
+  MapPin,
+  MessageCircle,
+  Search,
+  ShoppingBag,
+  Smartphone,
+  Zap,
+  type LucideIcon,
+} from "lucide-react"
+import { useMotionVariants, VIEWPORT } from "@/lib/motion"
 
-const benefits = [
+const BENEFITS: { icon: LucideIcon; title: string; description: string }[] = [
   {
     icon: MessageCircle,
-    title: "TUS CLIENTES TE ESCRIBEN EN UN CLIC",
-    description: "Integración directa con WhatsApp para consultas y ventas rápidas."
+    title: "Te escriben en un clic",
+    description:
+      "Botón de WhatsApp en cada sección, con el mensaje ya escrito. El cliente no tiene que buscarte.",
   },
   {
     icon: Smartphone,
-    title: "SE VE PERFECTA EN CUALQUIER CELULAR",
-    description: "Tu página adaptada para móviles, tablets y computadoras."
+    title: "Se ve bien en cualquier celular",
+    description:
+      "8 de cada 10 visitas llegan desde el teléfono. Diseñamos pensando en esa pantalla primero.",
   },
   {
     icon: Search,
-    title: "TE ENCUENTRAN EN GOOGLE",
-    description: "Optimizamos tu web para que más personas descubran tu negocio."
+    title: "Te encuentran en Google",
+    description:
+      "Optimizamos títulos, textos y velocidad para que aparezcas cuando buscan tu rubro en tu zona.",
   },
   {
     icon: ShoppingBag,
-    title: "MOSTRÁ TODO LO QUE VENDÉS",
-    description: "Exhibí tus productos o servicios de forma clara y profesional."
+    title: "Mostrás todo lo que vendés",
+    description:
+      "Tus productos o servicios ordenados, con fotos y precios, sin depender de una historia que caduca.",
+  },
+  {
+    icon: Zap,
+    title: "Carga en menos de 2 segundos",
+    description:
+      "Una web lenta pierde la mitad de las visitas. Las nuestras están optimizadas de fábrica.",
   },
   {
     icon: MapPin,
-    title: "GENERÁ MÁS CONFIANZA",
-    description: "Mostrá ubicación, reseñas y presencia profesional online."
-  }
+    title: "Generás confianza",
+    description:
+      "Ubicación, horarios y reseñas a la vista. El cliente llega sabiendo que existís de verdad.",
+  },
 ]
 
-const containerVariants = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.1
-    }
-  }
-}
-
-const itemVariants = {
-  hidden: { opacity: 0, y: 20 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.5 }
-  }
-}
-
 export function BenefitsSection() {
+  const { fadeUp, stagger } = useMotionVariants()
+
   return (
-    <section id="beneficios" className="py-24 relative">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section aria-labelledby="beneficios-titulo" className="py-20 md:py-28">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="text-center mb-16"
+          initial="hidden"
+          whileInView="visible"
+          viewport={VIEWPORT}
+          variants={fadeUp}
+          className="mx-auto max-w-2xl text-center"
         >
-          <h2 className="text-3xl sm:text-4xl font-bold mb-4">
-            Todo lo que tu negocio <span className="text-gradient">necesita</span>
+          <h2
+            id="beneficios-titulo"
+            className="text-balance text-3xl font-bold tracking-tight sm:text-4xl"
+          >
+            Todo lo que tu web <span className="text-gradient">tiene que hacer</span>
           </h2>
-          <p className="text-muted-foreground max-w-2xl mx-auto">
-            Creamos páginas web completas con todas las herramientas para que vendas más
+          <p className="mt-4 text-pretty text-muted-foreground">
+            Una página no es una tarjeta de presentación. Es tu vendedor trabajando las 24 horas.
           </p>
         </motion.div>
 
-        <motion.div
-          variants={containerVariants}
+        <motion.ul
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: true }}
-          className="grid md:grid-cols-2 lg:grid-cols-3 gap-6"
+          viewport={VIEWPORT}
+          variants={stagger}
+          className="mt-14 grid gap-5 sm:grid-cols-2 lg:grid-cols-3"
         >
-          {benefits.map((benefit, index) => (
-            <motion.div
-              key={index}
-              variants={itemVariants}
-              whileHover={{ y: -5, transition: { duration: 0.2 } }}
-              className="group glass rounded-2xl p-6 hover:bg-secondary/50 transition-all cursor-pointer"
+          {BENEFITS.map((benefit) => (
+            <motion.li
+              key={benefit.title}
+              variants={fadeUp}
+              className="flex gap-4 rounded-2xl border border-border bg-card/40 p-6"
             >
-              <div className="w-12 h-12 bg-primary/20 rounded-xl flex items-center justify-center mb-4 group-hover:bg-primary/30 transition-colors">
-                <benefit.icon className="w-6 h-6 text-primary" />
+              <span className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-primary/12 text-primary">
+                <benefit.icon className="h-5 w-5" aria-hidden />
+              </span>
+              <div>
+                <h3 className="font-semibold text-foreground">{benefit.title}</h3>
+                <p className="mt-1.5 text-sm leading-relaxed text-muted-foreground">
+                  {benefit.description}
+                </p>
               </div>
-              <h3 className="text-lg font-semibold text-foreground mb-2">{benefit.title}</h3>
-              <p className="text-muted-foreground text-sm">{benefit.description}</p>
-            </motion.div>
+            </motion.li>
           ))}
-        </motion.div>
+        </motion.ul>
       </div>
     </section>
   )
