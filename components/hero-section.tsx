@@ -42,14 +42,15 @@ export function HeroSection() {
       id="inicio"
       className="relative flex min-h-[92svh] items-center overflow-hidden pb-16 pt-28 md:pt-32"
     >
-      {/* Halo dorado de fondo. Estático: no consume presupuesto de animación. */}
+      {/* Halos dorados de fondo, respirando en ciclos de 26 y 32 segundos.
+          Animan solo transform y opacity, así que corren en la GPU. */}
       <div
         aria-hidden
-        className="pointer-events-none absolute -top-40 left-1/2 h-[36rem] w-[36rem] -translate-x-1/2 rounded-full bg-primary/12 blur-[120px]"
+        className="animate-aurora-center pointer-events-none absolute -top-40 left-1/2 h-[36rem] w-[36rem] rounded-full bg-primary/12 blur-[120px]"
       />
       <div
         aria-hidden
-        className="pointer-events-none absolute bottom-0 right-0 h-[28rem] w-[28rem] translate-x-1/3 rounded-full bg-primary/8 blur-[120px]"
+        className="animate-aurora-corner pointer-events-none absolute bottom-0 right-0 h-[28rem] w-[28rem] rounded-full bg-primary/8 blur-[120px]"
       />
 
       <div className="relative z-10 mx-auto grid w-full max-w-7xl gap-14 px-4 sm:px-6 lg:grid-cols-[1.05fr_1fr] lg:items-center lg:gap-12 lg:px-8">

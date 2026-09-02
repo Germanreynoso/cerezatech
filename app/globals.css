@@ -170,17 +170,126 @@
   }
 }
 
-/* Ninguna animación decorativa cuando el usuario pide movimiento reducido. */
-@media (prefers-reduced-motion: reduce) {
-  html {
-    scroll-behavior: auto;
+/*
+ * Movimiento ambiental.
+ *
+ * Todo anima `transform` y `opacity` únicamente, que el navegador resuelve en
+ * la GPU sin recalcular layout. Los ciclos son largos a propósito: la página
+ * se siente viva sin que el movimiento compita con la lectura.
+ *
+ * Las animaciones se declaran en `@theme`, que es como Tailwind v4 espera que
+ * se extienda el espacio de nombres `animate-*`. Definidas como CSS suelto, el
+ * compilador las descarta y las clases quedan sin efecto.
+ */
+@theme {
+  --animate-aurora-center: aurora-center 26s ease-in-out infinite;
+  --animate-aurora-corner: aurora-corner 32s ease-in-out infinite;
+  --animate-marquee: marquee 45s linear infinite;
+
+  /* El translate del centrado va dentro del keyframe: animar `transform`
+     pisaría la utilidad de posicionamiento de Tailwind. */
+  @keyframes aurora-center {
+    0%,
+    100% {
+      transform: translate(-50%, 0) scale(1);
+      opacity: 0.75;
+    }
+    50% {
+      transform: translate(-50%, 36px) scale(1.12);
+      opacity: 1;
+    }
   }
-  *,
-  *::before,
-  *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-    scroll-behavior: auto !important;
+
+  @keyframes aurora-corner {
+    0%,
+    100% {
+      transform: translate(33%, 0) scale(1.05);
+      opacity: 0.65;
+    }
+    50% {
+      transform: translate(28%, -40px) scale(0.95);
+      opacity: 1;
+    }
+  }
+
+  /* La pista se duplica en el markup, así que desplazar media pista devuelve
+     el carro a una posición idéntica y el bucle no se percibe. */
+  @keyframes marquee {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(-50%);
+    }
+  }
+}
+
+@layer components {
+  .animate-marquee {
+    will-change: transform;
+  }
+
+  /* Se detiene fuera de pantalla para no gastar CPU de fondo, y al pasar el
+     mouse para poder leerla. */
+  .animate-marquee.is-paused,
+  .marquee-track:hover .animate-marquee {
+    animation-play-state: paused;
+  }
+
+  /* Difumina los bordes para que las tarjetas entren y salgan sin cortarse. */
+  .marquee-mask {
+    -webkit-mask-image: linear-gradient(
+      to right,
+      transparent,
+      #000 8%,
+      #000 92%,
+      transparent
+    );
+    mask-image: linear-gradient(to right, transparent, #000 8%, #000 92%, transparent);
+  }
+}
+
+/*
+ * Movimiento reducido.
+ *
+ * Va dentro de `@layer`: en Tailwind v4 las reglas sueltas fuera de un layer
+ * se descartan al compilar, y esta media query quedaba sin efecto.
+ */
+@layer utilities {
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto !important;
+    }
+
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+
+    /*
+     * La cinta necesita un tratamiento propio: detenerla sin más la dejaría
+     * desplazada media pista. Pasa a envolverse en varias líneas y se oculta el
+     * duplicado. El markup no cambia, así que no hay riesgo de discrepancia con
+     * el HTML del servidor.
+     */
+    .animate-marquee {
+      animation: none !important;
+      width: auto !important;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .marquee-dup {
+      display: none !important;
+    }
+
+    .marquee-mask {
+      -webkit-mask-image: none;
+      mask-image: none;
+    }
   }
 }

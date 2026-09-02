@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion"
 import { Code2, Eye, LifeBuoy, Wallet, type LucideIcon } from "lucide-react"
+import { CountUp } from "@/components/count-up"
 import { useMotionVariants, VIEWPORT } from "@/lib/motion"
 import { VISIBLE_PROJECTS } from "@/lib/site-config"
 
@@ -51,9 +52,9 @@ export function TrustSection() {
   const sectors = new Set(VISIBLE_PROJECTS.map((p) => p.sector)).size
 
   const STATS = [
-    { value: String(total), label: "sitios en producción" },
-    { value: String(sectors), label: "rubros distintos" },
-    { value: "100%", label: "abribles ahora mismo" },
+    { value: total, suffix: "", label: "sitios en producción" },
+    { value: sectors, suffix: "", label: "rubros distintos" },
+    { value: 100, suffix: "%", label: "abribles ahora mismo" },
   ]
 
   return (
@@ -89,9 +90,11 @@ export function TrustSection() {
             <motion.div key={stat.label} variants={fadeUp} className="text-center">
               <dt className="sr-only">{stat.label}</dt>
               <dd>
-                <span className="block text-4xl font-bold tracking-tight text-primary">
-                  {stat.value}
-                </span>
+                <CountUp
+                  value={stat.value}
+                  suffix={stat.suffix}
+                  className="block text-4xl font-bold tracking-tight text-primary"
+                />
                 <span className="mt-1 block text-sm text-muted-foreground">{stat.label}</span>
               </dd>
             </motion.div>
