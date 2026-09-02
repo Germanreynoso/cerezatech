@@ -76,19 +76,15 @@ export const PROJECTS: readonly Project[] = [
     highlights: ["Carrito", "12 categorías", "Pedidos por WhatsApp", "Ofertas"],
     url: "https://importadostafi.com/",
   },
-  // TODO: reactivar cuando esté la URL definitiva.
-  // El dominio malina-negra.netlify.app devuelve 404 al 2026-09-02.
-  // Al descomentar, correr `node scripts/capture-work-screenshots.mjs` para
-  // generar public/work-malina-negra-{desktop,mobile}.webp.
-  // {
-  //   slug: "malina-negra",
-  //   name: "Malina Negra",
-  //   category: "Indumentaria",
-  //   summary:
-  //     "Catálogo de temporada con fichas de producto y consulta directa por WhatsApp.",
-  //   highlights: ["Catálogo", "Temporadas", "WhatsApp"],
-  //   url: "",
-  // },
+  {
+    slug: "turmalina-negra",
+    name: "Turmalina Negra",
+    category: "Terapias holísticas",
+    summary:
+      "Sitio de servicios con precios y duración a la vista, galería de arte y testimonios. Cada sesión se reserva por WhatsApp con el mensaje ya armado.",
+    highlights: ["Servicios con precio", "Reservas por WhatsApp", "Galería", "Testimonios"],
+    url: "https://turmalina-negra.netlify.app/",
+  },
 ]
 
 /** Rutas de los screenshots generados por scripts/capture-work-screenshots.mjs */

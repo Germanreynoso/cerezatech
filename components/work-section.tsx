@@ -57,18 +57,22 @@ export function WorkSection() {
                 key={project.slug}
                 variants={fadeUp}
                 className={cn(
-                  "group flex flex-col overflow-hidden rounded-2xl border border-border bg-card/50 transition-colors hover:border-primary/40",
-                  isWide && "lg:col-span-2"
+                  "group overflow-hidden rounded-2xl border border-border bg-card/50 transition-colors hover:border-primary/40",
+                  // La tarjeta ancha reparte el ancho entre captura e info en
+                  // vez de estirar el screenshot a toda la fila.
+                  isWide
+                    ? "flex flex-col lg:col-span-2 lg:grid lg:grid-cols-[3fr_2fr] lg:items-center"
+                    : "flex flex-col"
                 )}
               >
-                <div className="relative p-5 pb-0 sm:p-7 sm:pb-0">
+                <div className="relative p-5 pb-0 sm:p-7 sm:pb-0 lg:pb-0">
                   <BrowserFrame
                     src={projectShot(project.slug, "desktop")}
                     alt={`Vista de escritorio del sitio de ${project.name}`}
                     label={domainOf(project.url)}
                     sizes={
                       isWide
-                        ? "(min-width: 1024px) 76vw, 88vw"
+                        ? "(min-width: 1024px) 46vw, 88vw"
                         : "(min-width: 1024px) 42vw, 88vw"
                     }
                   />
@@ -81,7 +85,12 @@ export function WorkSection() {
                   />
                 </div>
 
-                <div className="flex flex-1 flex-col p-7 pt-9 sm:pt-11">
+                <div
+                  className={cn(
+                    "flex flex-1 flex-col p-7 pt-9 sm:pt-11",
+                    isWide && "lg:pt-7"
+                  )}
+                >
                   <div className="flex flex-wrap items-center gap-3">
                     <span className="rounded-full bg-primary/12 px-3 py-1 text-xs font-bold uppercase tracking-wider text-primary">
                       {project.category}

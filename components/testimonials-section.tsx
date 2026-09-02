@@ -23,7 +23,7 @@ const TESTIMONIALS = [
   },
   {
     text: "Lo que más valoro es que no me dejaron sola después de publicar. Cada vez que necesité un cambio, lo hicieron el mismo día.",
-    author: "Emprendimiento de indumentaria",
+    author: "Estudio de terapias holísticas",
     location: "Tucumán",
   },
 ]
