@@ -1,5 +1,6 @@
 "use client"
 
+import { useMemo, useState } from "react"
 import { motion } from "framer-motion"
 import { ArrowUpRight, MessageCircle } from "lucide-react"
 import { BrowserFrame, PhoneFrame } from "@/components/browser-frame"
@@ -7,11 +8,14 @@ import { useMotionVariants, VIEWPORT } from "@/lib/motion"
 import {
   FEATURED_PROJECTS,
   OTHER_PROJECTS,
+  SECTOR_LABELS,
   VISIBLE_PROJECTS,
   projectShot,
   waLink,
   type Project,
+  type Sector,
 } from "@/lib/site-config"
+import { cn } from "@/lib/utils"
 
 function domainOf(url: string): string {
   return url.replace(/^https?:\/\//, "").replace(/\/$/, "")
@@ -112,8 +116,35 @@ function CompactCard({ project }: { project: Project }) {
   )
 }
 
+type Filter = Sector | "todos"
+
 export function WorkSection() {
   const { fadeUp, stagger } = useMotionVariants()
+  const [filter, setFilter] = useState<Filter>("todos")
+
+  // Solo se ofrecen los rubros que tienen al menos un proyecto, en el orden en
+  // que aparecen en la config.
+  const filters = useMemo(() => {
+    const counts = new Map<Sector, number>()
+    for (const p of VISIBLE_PROJECTS) {
+      counts.set(p.sector, (counts.get(p.sector) ?? 0) + 1)
+    }
+    return [
+      { key: "todos" as const, label: "Todos", count: VISIBLE_PROJECTS.length },
+      ...[...counts.entries()].map(([sector, count]) => ({
+        key: sector,
+        label: SECTOR_LABELS[sector],
+        count,
+      })),
+    ]
+  }, [])
+
+  const matches = (p: Project) => filter === "todos" || p.sector === filter
+
+  // Con un filtro activo desaparece la jerarquía de destacados: lo que importa
+  // es ver todo lo del rubro elegido junto.
+  const featured = filter === "todos" ? FEATURED_PROJECTS : []
+  const rest = filter === "todos" ? OTHER_PROJECTS : VISIBLE_PROJECTS.filter(matches)
 
   if (VISIBLE_PROJECTS.length === 0) return null
 
@@ -139,15 +170,48 @@ export function WorkSection() {
           </p>
         </motion.div>
 
-        {FEATURED_PROJECTS.length > 0 && (
+        <motion.div
+          initial="hidden"
+          whileInView="visible"
+          viewport={VIEWPORT}
+          variants={fadeUp}
+          className="mt-10 flex flex-wrap justify-center gap-2"
+          role="group"
+          aria-label="Filtrar trabajos por rubro"
+        >
+          {filters.map((f) => {
+            const isActive = filter === f.key
+            return (
+              <button
+                key={f.key}
+                type="button"
+                onClick={() => setFilter(f.key)}
+                aria-pressed={isActive}
+                className={cn(
+                  "rounded-full border px-4 py-2 text-sm font-medium transition-colors",
+                  isActive
+                    ? "border-primary bg-primary text-primary-foreground"
+                    : "border-border text-muted-foreground hover:border-primary/50 hover:text-foreground"
+                )}
+              >
+                {f.label}
+                <span className={cn("ml-1.5", isActive ? "opacity-70" : "opacity-50")}>
+                  {f.count}
+                </span>
+              </button>
+            )
+          })}
+        </motion.div>
+
+        {featured.length > 0 && (
           <motion.div
             initial="hidden"
             whileInView="visible"
             viewport={VIEWPORT}
             variants={stagger}
-            className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-3"
+            className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3"
           >
-            {FEATURED_PROJECTS.map((project) => (
+            {featured.map((project) => (
               <motion.div key={project.slug} variants={fadeUp} className="flex">
                 <div className="flex w-full">
                   <FeaturedCard project={project} />
@@ -157,26 +221,33 @@ export function WorkSection() {
           </motion.div>
         )}
 
-        {OTHER_PROJECTS.length > 0 && (
+        {rest.length > 0 && (
           <>
-            <motion.p
-              initial="hidden"
-              whileInView="visible"
-              viewport={VIEWPORT}
-              variants={fadeUp}
-              className="mt-16 text-sm font-semibold uppercase tracking-widest text-muted-foreground"
-            >
-              Más trabajos
-            </motion.p>
+            {featured.length > 0 && (
+              <motion.p
+                initial="hidden"
+                whileInView="visible"
+                viewport={VIEWPORT}
+                variants={fadeUp}
+                className="mt-16 text-sm font-semibold uppercase tracking-widest text-muted-foreground"
+              >
+                Más trabajos
+              </motion.p>
+            )}
 
+            {/* La `key` fuerza el remontaje al cambiar de filtro, para que las
+                tarjetas nuevas entren animadas en lugar de aparecer de golpe. */}
             <motion.div
+              key={filter}
               initial="hidden"
-              whileInView="visible"
-              viewport={VIEWPORT}
+              animate="visible"
               variants={stagger}
-              className="mt-6 grid gap-5 sm:grid-cols-2 lg:grid-cols-4"
+              className={cn(
+                "grid gap-5 sm:grid-cols-2 lg:grid-cols-4",
+                featured.length > 0 ? "mt-6" : "mt-10"
+              )}
             >
-              {OTHER_PROJECTS.map((project) => (
+              {rest.map((project) => (
                 <motion.div key={project.slug} variants={fadeUp} className="flex">
                   <div className="flex w-full">
                     <CompactCard project={project} />

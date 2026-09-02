@@ -6,7 +6,7 @@ import { ServicesSection } from "@/components/services-section"
 import { BenefitsSection } from "@/components/benefits-section"
 import { WorkSection } from "@/components/work-section"
 import { ProcessSection } from "@/components/process-section"
-import { TestimonialsSection } from "@/components/testimonials-section"
+import { TrustSection } from "@/components/trust-section"
 import { PricingSection } from "@/components/pricing-section"
 import { FAQSection } from "@/components/faq-section"
 import { FinalCtaSection } from "@/components/final-cta-section"
@@ -24,7 +24,7 @@ export default function Home() {
         <BenefitsSection />
         <WorkSection />
         <ProcessSection />
-        <TestimonialsSection />
+        <TrustSection />
         <PricingSection />
         <FAQSection />
         <FinalCtaSection />

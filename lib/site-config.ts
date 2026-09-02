@@ -7,7 +7,7 @@ export const SITE = {
   name: "Luckywebs",
   tagline: "Páginas web que conectan",
   description:
-    "Diseñamos y publicamos páginas web rápidas para negocios y emprendedores. Se ven bien en cualquier celular y convierten visitas en clientes por WhatsApp.",
+    "Diseñamos y publicamos sitios web y plataformas interactivas para negocios, organismos e instituciones educativas. Rápidos, pensados para el celular y con el contacto a un clic.",
   // TODO: confirmar dominio definitivo antes del deploy a producción.
   url: "https://luckywebs.com.ar",
   locale: "es_AR",
@@ -16,13 +16,22 @@ export const SITE = {
 export const CONTACT = {
   whatsapp: "543816789468",
   whatsappDisplay: "+54 381 678 9468",
-  email: "reynosogermangonzalo@gmail.com",
+  email: "germangonzaloreynoso@gmail.com",
   instagram: "germanreynoso16",
   instagramUrl: "https://instagram.com/germanreynoso16",
   location: "Tafí del Valle, Tucumán",
   coverage: "Tafí del Valle y Tucumán · Trabajamos con toda Argentina",
   hours: { opens: "09:00", closes: "20:00" },
 } as const
+
+/** Construye un enlace de correo con asunto y cuerpo prellenados. */
+export function mailLink(subject?: string, body?: string): string {
+  const params = new URLSearchParams()
+  if (subject) params.set("subject", subject)
+  if (body) params.set("body", body)
+  const qs = params.toString()
+  return `mailto:${CONTACT.email}${qs ? `?${qs}` : ""}`
+}
 
 /** Construye un enlace de WhatsApp con mensaje prellenado. */
 export function waLink(message?: string): string {
@@ -46,10 +55,28 @@ export const NAV_LINKS = [
 /* Trabajos                                                                    */
 /* -------------------------------------------------------------------------- */
 
+/**
+ * Agrupación para el filtro de la sección Trabajos.
+ *
+ * Es más ancha que `category`: el visitante busca "algo como lo mío", no la
+ * etiqueta exacta. Con una categoría por proyecto habría siete filtros de un
+ * elemento cada uno, que no filtran nada.
+ */
+export type Sector = "comercio" | "educacion" | "institucional" | "turismo" | "servicios"
+
+export const SECTOR_LABELS: Record<Sector, string> = {
+  comercio: "Tiendas online",
+  educacion: "Educación",
+  institucional: "Institucional",
+  turismo: "Turismo",
+  servicios: "Servicios",
+}
+
 export type Project = {
   slug: string
   name: string
   category: string
+  sector: Sector
   /** Qué resolvimos, en una línea. */
   summary: string
   highlights: readonly string[]
@@ -69,6 +96,7 @@ export const PROJECTS: readonly Project[] = [
     slug: "municipalidad-tafi",
     name: "Municipalidad de Tafí del Valle",
     category: "Organismo público",
+    sector: "institucional",
     summary:
       "Portal institucional con noticias, trámites y guía turística. Muestra el clima y el estado de la ruta en vivo, y está en español e inglés para el turismo.",
     highlights: ["Institucional", "Clima en vivo", "Buscador", "Español / Inglés"],
@@ -79,6 +107,7 @@ export const PROJECTS: readonly Project[] = [
     slug: "importados-tafi",
     name: "Importados Tafí",
     category: "Tienda online",
+    sector: "comercio",
     summary:
       "Catálogo de tecnología con 12 categorías, carrito y búsqueda. Cada pedido llega directo al WhatsApp del local, sin pasarela de pago ni comisiones.",
     highlights: ["Carrito", "12 categorías", "Pedidos por WhatsApp", "Ofertas"],
@@ -89,6 +118,7 @@ export const PROJECTS: readonly Project[] = [
     slug: "laprohibida",
     name: "La Prohibida",
     category: "Alquiler temporario",
+    sector: "turismo",
     summary:
       "Casa de alquiler en Tafí del Valle: galería de ambientes, comodidades, carta del bar y ubicación. Las consultas de fechas salen por WhatsApp.",
     highlights: ["Galería", "Comodidades", "Ubicación", "Reservas"],
@@ -101,6 +131,7 @@ export const PROJECTS: readonly Project[] = [
     slug: "turmalina-negra",
     name: "Turmalina Negra",
     category: "Terapias holísticas",
+    sector: "servicios",
     summary:
       "Servicios con precio y duración a la vista, galería de arte y testimonios. Cada sesión se reserva por WhatsApp con el mensaje ya armado.",
     highlights: ["Servicios con precio", "Reservas por WhatsApp", "Galería"],
@@ -110,6 +141,7 @@ export const PROJECTS: readonly Project[] = [
     slug: "el-grow-de-aixa",
     name: "El Grow de Aixa",
     category: "Tienda online",
+    sector: "comercio",
     summary:
       "Growshop de Concepción con seis categorías de producto, carrito, ofertas y envíos a todo el país.",
     highlights: ["Carrito", "Categorías", "Ofertas"],
@@ -119,6 +151,7 @@ export const PROJECTS: readonly Project[] = [
     slug: "soscan",
     name: "SOS QR",
     category: "Producto",
+    sector: "servicios",
     summary:
       "Landing de una pulsera de identificación con QR para emergencias, con casos de uso, testimonios y formulario de pedido.",
     highlights: ["Landing de producto", "Formulario", "Casos de uso"],
@@ -128,6 +161,7 @@ export const PROJECTS: readonly Project[] = [
     slug: "repasofrances",
     name: "Repaso de Francés",
     category: "Educación",
+    sector: "educacion",
     summary:
       "Plataforma de preparación para el examen de ingreso de la Escuela Normal en Lenguas Vivas: unidades, juegos, simuladores y seguimiento de progreso.",
     highlights: ["Ejercicios interactivos", "Simuladores", "Progreso"],
@@ -137,6 +171,7 @@ export const PROJECTS: readonly Project[] = [
     slug: "arturovaldezdelasu",
     name: "Flauta Dulce Yamaha",
     category: "Educación",
+    sector: "educacion",
     summary:
       "Método para aprender flauta dulce, con tabla interactiva de digitaciones, partituras, afinador online y blog.",
     highlights: ["Tabla interactiva", "Afinador", "Partituras", "Blog"],
@@ -146,6 +181,7 @@ export const PROJECTS: readonly Project[] = [
     slug: "estdiotaller",
     name: "Study Terminal",
     category: "Educación",
+    sector: "educacion",
     summary:
       "Plataforma de estudio con estética de terminal: temario, quizzes, flashcards, tutor con IA y un sistema de niveles y rachas.",
     highlights: ["Quizzes", "Flashcards", "Tutor con IA", "Gamificación"],
@@ -155,6 +191,7 @@ export const PROJECTS: readonly Project[] = [
     slug: "mineraloteca",
     name: "GeoMineral",
     category: "Herramienta",
+    sector: "educacion",
     summary:
       "Base de conocimiento de mineralogía con catálogo filtrable, comparador de propiedades, quiz y asistente de consulta.",
     highlights: ["Catálogo filtrable", "Comparador", "Quiz", "Asistente"],
@@ -189,10 +226,18 @@ export type Plan = {
   featured: boolean
 }
 
+/**
+ * Mes y año de la última revisión de precios. Se muestra junto a los planes:
+ * en un contexto inflacionario, un precio sin fecha envejece mal y obliga a
+ * discutirlo con cada consulta.
+ */
+export const PRICES_UPDATED = "septiembre de 2026"
+
 const COMMON_FEATURES = [
   "Dominio y hosting el primer año",
   "Diseño adaptado a celular",
-  "Integración con WhatsApp",
+  "Contacto directo por WhatsApp",
+  "El código y el dominio quedan a tu nombre",
 ] as const
 
 export const PLANS: readonly Plan[] = [
@@ -200,11 +245,10 @@ export const PLANS: readonly Plan[] = [
     name: "Básico",
     price: "$200.000",
     audience: "Landing de una página",
-    description: "Ideal para presentar tu negocio y que te escriban.",
+    description: "Para presentar tu negocio y que te escriban.",
     features: [
       ...COMMON_FEATURES,
       "Una página con todas tus secciones",
-      "Formulario de contacto por WhatsApp",
       "Entrega en 7 días",
     ],
     featured: false,
@@ -241,6 +285,26 @@ export const PLANS: readonly Plan[] = [
   },
 ]
 
+/**
+ * Cuarta opción, fuera de la grilla de planes.
+ *
+ * Los planes con precio marcan un piso, no un techo: cuatro de los diez
+ * proyectos del portfolio son plataformas interactivas que no entran en
+ * ninguno de los tres, y sin esta opción el precio más alto visible las
+ * subvaluaba.
+ */
+export const CUSTOM_TIER = {
+  name: "Plataformas y desarrollos a medida",
+  description:
+    "Plataformas educativas, herramientas interactivas, portales institucionales y sistemas que no entran en un plan cerrado. Tienen su propio alcance y su propio presupuesto.",
+  examples: [
+    "Plataformas de estudio con ejercicios y seguimiento de progreso",
+    "Portales institucionales con datos en vivo y varios idiomas",
+    "Herramientas de consulta con buscador y comparador",
+    "Integraciones con inteligencia artificial",
+  ],
+} as const
+
 /* -------------------------------------------------------------------------- */
 /* Servicios                                                                   */
 /* -------------------------------------------------------------------------- */
@@ -261,6 +325,10 @@ export const SERVICES = [
   {
     title: "Catálogo digital",
     description: "Tus productos ordenados, con búsqueda y filtros.",
+  },
+  {
+    title: "Plataformas interactivas",
+    description: "Ejercicios, quizzes, buscadores y seguimiento de progreso.",
   },
   {
     title: "SEO local",

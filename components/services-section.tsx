@@ -6,6 +6,7 @@ import {
   Layout,
   type LucideIcon,
   Building2,
+  GraduationCap,
   Search,
   ShoppingCart,
   Wrench,
@@ -19,6 +20,7 @@ const ICONS: Record<string, LucideIcon> = {
   "Tienda online": ShoppingCart,
   "Web institucional": Building2,
   "Catálogo digital": BookOpen,
+  "Plataformas interactivas": GraduationCap,
   "SEO local": Search,
   Mantenimiento: Wrench,
 }

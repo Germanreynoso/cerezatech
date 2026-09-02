@@ -1,9 +1,9 @@
 "use client"
 
 import { motion } from "framer-motion"
-import { MessageCircle } from "lucide-react"
+import { Mail, MessageCircle } from "lucide-react"
 import { useMotionVariants, VIEWPORT } from "@/lib/motion"
-import { CONTACT, waLink } from "@/lib/site-config"
+import { CONTACT, mailLink, waLink } from "@/lib/site-config"
 
 const WA_MESSAGE = "Hola! Quiero empezar con mi página web. ¿Me pasás información?"
 
@@ -34,18 +34,33 @@ export function FinalCtaSection() {
               nada y no te compromete a nada.
             </p>
 
-            <a
-              href={waLink(WA_MESSAGE)}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="glow-gold mt-9 inline-flex items-center gap-2.5 rounded-xl bg-primary px-8 py-4 text-lg font-semibold text-primary-foreground transition-opacity hover:opacity-90"
-            >
-              <MessageCircle className="h-5 w-5" aria-hidden />
-              Escribinos por WhatsApp
-            </a>
+            <div className="mt-9 flex flex-col items-center justify-center gap-3 sm:flex-row">
+              <a
+                href={waLink(WA_MESSAGE)}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="glow-gold inline-flex items-center gap-2.5 rounded-xl bg-primary px-8 py-4 text-lg font-semibold text-primary-foreground transition-opacity hover:opacity-90"
+              >
+                <MessageCircle className="h-5 w-5" aria-hidden />
+                Escribinos por WhatsApp
+              </a>
+
+              {/* Canal formal: organismos y empresas suelen necesitar dejar
+                  constancia por escrito antes de pasar a WhatsApp. */}
+              <a
+                href={mailLink(
+                  "Consulta sobre una página web",
+                  "Hola! Te escribo para consultar por una página web.\n\nMi negocio o institución:\n\nQué necesito:\n"
+                )}
+                className="inline-flex items-center gap-2.5 rounded-xl border border-border px-8 py-4 text-lg font-semibold text-foreground transition-colors hover:border-primary hover:text-primary"
+              >
+                <Mail className="h-5 w-5" aria-hidden />
+                Escribinos por mail
+              </a>
+            </div>
 
             <p className="mt-5 text-sm text-muted-foreground">
-              {CONTACT.whatsappDisplay} · Respondemos el mismo día
+              {CONTACT.whatsappDisplay} · {CONTACT.email} · Respondemos el mismo día
             </p>
           </div>
         </motion.div>

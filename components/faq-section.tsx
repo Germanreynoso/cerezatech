@@ -28,6 +28,16 @@ const FAQS = [
       "Sí, el primer año está incluido en todos los planes. A partir del segundo año el costo de renovación es aparte y te avisamos con anticipación cuánto es.",
   },
   {
+    question: "¿Por qué los precios dicen «desde»?",
+    answer:
+      "Porque el valor depende de cuánto trabajo lleve: no cuesta lo mismo una landing de una página que un catálogo con cientos de productos. Los montos publicados son el punto de partida de cada tipo de proyecto. Charlamos qué necesitás, te pasamos un precio cerrado por escrito y recién ahí arrancamos.",
+  },
+  {
+    question: "¿Trabajan con instituciones y organismos públicos?",
+    answer:
+      "Sí. Hicimos el portal de la Municipalidad de Tafí del Valle y varias plataformas educativas. Podemos emitir factura y manejar la comunicación por mail cuando la institución lo necesita para dejar constancia.",
+  },
+  {
     question: "¿La página es mía? ¿Qué pasa si dejo de trabajar con ustedes?",
     answer:
       "La página y el dominio son tuyos. Si en algún momento querés llevártela a otro lado, te entregamos todo el código y las credenciales sin costo ni condiciones.",

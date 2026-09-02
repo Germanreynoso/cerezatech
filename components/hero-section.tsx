@@ -77,8 +77,8 @@ export function HeroSection() {
             variants={fadeUp}
             className="mt-6 max-w-xl text-pretty text-lg leading-relaxed text-muted-foreground"
           >
-            Diseñamos y publicamos páginas web rápidas, que se ven bien en cualquier celular y
-            convierten visitas en clientes por WhatsApp.
+            Desde una landing que te consigue clientes hasta plataformas interactivas a medida.
+            Rápidas, pensadas para el celular y con el contacto a un clic.
           </motion.p>
 
           <motion.div variants={fadeUp} className="mt-9 flex flex-col gap-3 sm:flex-row">
