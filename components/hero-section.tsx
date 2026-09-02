@@ -40,7 +40,7 @@ export function HeroSection() {
   return (
     <section
       id="inicio"
-      className="relative flex min-h-[92svh] items-center overflow-hidden pt-24 pb-16 md:pt-28"
+      className="relative flex min-h-[92svh] items-center overflow-hidden pb-16 pt-28 md:pt-32"
     >
       {/* Halo dorado de fondo. Estático: no consume presupuesto de animación. */}
       <div

@@ -33,10 +33,10 @@ export function Navbar({ onMenuOpenChange }: { onMenuOpenChange?: (open: boolean
     >
       <nav
         aria-label="Principal"
-        className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8"
+        className="mx-auto flex h-20 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8"
       >
         <a href="#inicio" className="rounded-lg" aria-label="Luckywebs, ir al inicio">
-          <BrandLogo size={36} />
+          <BrandLogo markClassName="size-12 sm:size-14" />
         </a>
 
         <ul className="hidden items-center gap-1 md:flex">
@@ -88,7 +88,7 @@ export function Navbar({ onMenuOpenChange }: { onMenuOpenChange?: (open: boolean
 
               <div className="flex h-full flex-col">
                 <div className="border-b border-border px-6 py-5">
-                  <BrandLogo size={36} />
+                  <BrandLogo markClassName="size-14" />
                 </div>
 
                 <ul className="flex flex-1 flex-col gap-1 px-4 py-6">

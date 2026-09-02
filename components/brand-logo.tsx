@@ -7,27 +7,25 @@ import { cn } from "@/lib/utils"
  *
  * El arte original tiene fondo crema, así que el badge coincide con él y el
  * borde del recorte no se percibe.
+ *
+ * El tamaño se controla con clases (`className`), no con un número: así puede
+ * ser responsive. El `<Image>` se pide siempre a 160 px —suficiente para
+ * cualquier tamaño mostrado, incluso en pantallas retina— y el contenedor lo
+ * recorta.
  */
-export function BrandMark({
-  size = 36,
-  className,
-}: {
-  size?: number
-  className?: string
-}) {
+export function BrandMark({ className }: { className?: string }) {
   return (
     <span
       className={cn(
-        "inline-flex shrink-0 items-center justify-center overflow-hidden rounded-full bg-brand-cream",
+        "inline-flex size-9 shrink-0 items-center justify-center overflow-hidden rounded-full bg-brand-cream",
         className
       )}
-      style={{ width: size, height: size }}
     >
       <Image
         src="/logo-mark.png"
         alt=""
-        width={size * 2}
-        height={size * 2}
+        width={160}
+        height={160}
         className="h-full w-full object-cover"
         priority
       />
@@ -45,21 +43,23 @@ export function BrandWordmark({ className }: { className?: string }) {
 }
 
 export function BrandLogo({
-  size = 36,
   className,
+  markClassName,
+  wordmarkClassName,
   showTagline = false,
 }: {
-  size?: number
   className?: string
+  markClassName?: string
+  wordmarkClassName?: string
   showTagline?: boolean
 }) {
   return (
-    <span className={cn("flex items-center gap-2.5", className)}>
-      <BrandMark size={size} />
+    <span className={cn("flex items-center gap-3", className)}>
+      <BrandMark className={markClassName} />
       <span className="flex flex-col leading-none">
-        <BrandWordmark className="text-lg sm:text-xl" />
+        <BrandWordmark className={cn("text-xl sm:text-2xl", wordmarkClassName)} />
         {showTagline && (
-          <span className="mt-1 text-[11px] font-medium tracking-wide text-muted-foreground">
+          <span className="mt-1.5 text-xs font-medium tracking-wide text-muted-foreground">
             {SITE.tagline}
           </span>
         )}

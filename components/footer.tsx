@@ -10,7 +10,7 @@ export function Footer() {
       <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
         <div className="grid gap-10 md:grid-cols-3">
           <div>
-            <BrandLogo size={44} showTagline />
+            <BrandLogo markClassName="size-20 sm:size-24" wordmarkClassName="text-2xl sm:text-3xl" showTagline />
             <p className="mt-5 max-w-xs text-sm leading-relaxed text-muted-foreground">
               {SITE.description}
             </p>

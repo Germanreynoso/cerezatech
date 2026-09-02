@@ -134,7 +134,7 @@
   html {
     scroll-behavior: smooth;
     /* Deja aire bajo el navbar sticky al saltar a un ancla. */
-    scroll-padding-top: 5rem;
+    scroll-padding-top: 6rem;
     /* Red de seguridad contra desbordes laterales. `clip` en vez de `hidden`
        porque `hidden` rompe el `position: sticky` del navbar. */
     overflow-x: clip;
