@@ -13,7 +13,7 @@ const inter = Inter({
 export const metadata: Metadata = {
   metadataBase: new URL(SITE.url),
   title: {
-    default: `${SITE.name} — Páginas web para negocios en Tucumán`,
+    default: `${SITE.name} — Sitios web y plataformas a medida en Tucumán`,
     template: `%s | ${SITE.name}`,
   },
   description: SITE.description,
@@ -24,7 +24,7 @@ export const metadata: Metadata = {
     'tienda online Argentina',
     'landing page para emprendedores',
     'SEO local Tucumán',
-    'Luckywebs',
+    'Lucky Studio',
   ],
   authors: [{ name: SITE.name }],
   creator: SITE.name,

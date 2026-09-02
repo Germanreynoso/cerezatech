@@ -4,12 +4,19 @@
  */
 
 export const SITE = {
-  name: "Luckywebs",
-  tagline: "Páginas web que conectan",
+  name: "Lucky Studio",
+  /** Las dos mitades del wordmark: "Lucky" en crema, "Studio" en dorado. */
+  nameParts: { first: "Lucky", second: "Studio" },
+  /**
+   * Amplía el "páginas web que conectan" del logo original: el estudio hace
+   * también plataformas, y el nombre ya no se limita a la web.
+   */
+  tagline: "Sitios y plataformas que conectan",
   description:
     "Diseñamos y publicamos sitios web y plataformas interactivas para negocios, organismos e instituciones educativas. Rápidos, pensados para el celular y con el contacto a un clic.",
-  // TODO: confirmar dominio definitivo antes del deploy a producción.
-  url: "https://luckywebs.com.ar",
+  // TODO: confirmar tras registrar el dominio. Al 2026-09-02, luckystudio.com
+  // figuraba sin DNS activo.
+  url: "https://luckystudio.com",
   locale: "es_AR",
 } as const
 

@@ -5,7 +5,7 @@ import { AnimatePresence, motion } from "framer-motion"
 import { ArrowRight, Check, MessageCircle } from "lucide-react"
 import { BrowserFrame } from "@/components/browser-frame"
 import { useMotionVariants } from "@/lib/motion"
-import { VISIBLE_PROJECTS, projectShot, waLink } from "@/lib/site-config"
+import { SITE, VISIBLE_PROJECTS, projectShot, waLink } from "@/lib/site-config"
 
 const TRUST_POINTS = [
   "Entrega en 7 días",
@@ -140,7 +140,7 @@ export function HeroSection() {
               >
                 <BrowserFrame
                   src={projectShot(current.slug, "desktop")}
-                  alt={`Sitio web de ${current.name} hecho por Luckywebs`}
+                  alt={`Sitio web de ${current.name} hecho por ${SITE.name}`}
                   label={domainOf(current.url)}
                   priority
                   sizes="(min-width: 1024px) 46vw, 92vw"

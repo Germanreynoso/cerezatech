@@ -3,7 +3,7 @@ import { SITE } from "@/lib/site-config"
 import { cn } from "@/lib/utils"
 
 /**
- * Isotipo de Luckywebs dentro de un badge circular crema.
+ * Isotipo de Lucky Studio dentro de un badge circular crema.
  *
  * El arte original tiene fondo crema, así que el badge coincide con él y el
  * borde del recorte no se percibe.
@@ -33,11 +33,16 @@ export function BrandMark({ className }: { className?: string }) {
   )
 }
 
-/** Wordmark tipográfico: "Lucky" en crema, "webs" en dorado. */
+/**
+ * Wordmark tipográfico: la primera mitad en crema, la segunda en dorado.
+ * Las dos partes salen de la config para que renombrar la marca sea un solo
+ * cambio y no una búsqueda por todo el código.
+ */
 export function BrandWordmark({ className }: { className?: string }) {
   return (
     <span className={cn("font-bold tracking-tight", className)}>
-      Lucky<span className="text-primary">webs</span>
+      {SITE.nameParts.first}
+      <span className="text-primary">{SITE.nameParts.second}</span>
     </span>
   )
 }

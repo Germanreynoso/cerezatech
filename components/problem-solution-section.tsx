@@ -3,6 +3,7 @@
 import { motion } from "framer-motion"
 import { Check, X } from "lucide-react"
 import { useMotionVariants, VIEWPORT } from "@/lib/motion"
+import { SITE } from "@/lib/site-config"
 
 const WITHOUT = [
   "Tu único canal es un perfil de Instagram",
@@ -68,7 +69,7 @@ export function ProblemSolutionSection() {
             variants={fadeUp}
             className="rounded-2xl border border-primary/35 bg-card p-8"
           >
-            <h3 className="text-lg font-semibold text-primary">Con Luckywebs</h3>
+            <h3 className="text-lg font-semibold text-primary">Con {SITE.name}</h3>
             <ul className="mt-6 space-y-4">
               {WITH.map((item) => (
                 <li key={item} className="flex items-start gap-3">

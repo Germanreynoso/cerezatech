@@ -5,7 +5,7 @@ import { Menu, MessageCircle } from "lucide-react"
 import { Sheet, SheetContent, SheetTitle, SheetTrigger } from "@/components/ui/sheet"
 import { BrandLogo, BrandWordmark } from "@/components/brand-logo"
 import { useScrollSpy, useScrolled } from "@/hooks/use-scroll-spy"
-import { NAV_LINKS, waLink } from "@/lib/site-config"
+import { NAV_LINKS, SITE, waLink } from "@/lib/site-config"
 import { cn } from "@/lib/utils"
 
 const SECTION_IDS = NAV_LINKS.map((l) => l.href.slice(1))
@@ -35,7 +35,7 @@ export function Navbar({ onMenuOpenChange }: { onMenuOpenChange?: (open: boolean
         aria-label="Principal"
         className="mx-auto flex h-20 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8"
       >
-        <a href="#inicio" className="rounded-lg" aria-label="Luckywebs, ir al inicio">
+        <a href="#inicio" className="rounded-lg" aria-label={`${SITE.name}, ir al inicio`}>
           <BrandLogo markClassName="size-12 sm:size-14" />
         </a>
 
