@@ -16,3 +16,6 @@ node_modules
 # Assets temporales de captura
 .screenshots-tmp/
 .playwright-mcp/
+
+# Cache incremental de TypeScript
+tsconfig.tsbuildinfo
