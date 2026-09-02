@@ -12,6 +12,7 @@ export function BrowserFrame({
   priority = false,
   sizes,
   className,
+  chromeless = false,
 }: {
   src: string
   alt: string
@@ -19,6 +20,8 @@ export function BrowserFrame({
   priority?: boolean
   sizes: string
   className?: string
+  /** Sin barra de navegador: para miniaturas donde no habría espacio legible. */
+  chromeless?: boolean
 }) {
   return (
     <div
@@ -27,23 +30,25 @@ export function BrowserFrame({
         className
       )}
     >
-      <div className="flex items-center gap-2 border-b border-border bg-secondary px-3 py-2.5">
-        <span className="h-2.5 w-2.5 rounded-full bg-[#ff5f57]" />
-        <span className="h-2.5 w-2.5 rounded-full bg-[#febc2e]" />
-        <span className="h-2.5 w-2.5 rounded-full bg-[#28c840]" />
-        <span className="ml-2 min-w-0 flex-1 truncate rounded-md bg-background/60 px-2.5 py-1 text-[11px] text-muted-foreground">
-          {label}
-        </span>
-      </div>
+      {!chromeless && (
+        <div className="flex items-center gap-2 border-b border-border bg-secondary px-3 py-2.5">
+          <span className="h-2.5 w-2.5 rounded-full bg-[#ff5f57]" />
+          <span className="h-2.5 w-2.5 rounded-full bg-[#febc2e]" />
+          <span className="h-2.5 w-2.5 rounded-full bg-[#28c840]" />
+          <span className="ml-2 min-w-0 flex-1 truncate rounded-md bg-background/60 px-2.5 py-1 text-[11px] text-muted-foreground">
+            {label}
+          </span>
+        </div>
+      )}
 
-      <div className="relative aspect-[1440/900] bg-background">
+      <div className={cn("relative bg-background", chromeless ? "h-full" : "aspect-[1440/900]")}>
         <Image
           src={src}
           alt={alt}
           fill
           sizes={sizes}
           priority={priority}
-          className="object-cover object-top"
+          className="object-cover object-top transition-transform duration-500 group-hover:scale-105"
         />
       </div>
     </div>
