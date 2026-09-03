@@ -440,9 +440,13 @@ redirecciones. Comprueba:
 
 **PageSpeed Insights.** `strategy=mobile`, categorías `performance` y `seo`.
 Se toman el puntaje de rendimiento, el puntaje de SEO y LCP. La clave de API
-vive en `PSI_API_KEY`, solo en el servidor. Si PSI falla o excede el tiempo, el
-informe sale con los chequeos del HTML y una nota "no pudimos medir la
-velocidad esta vez".
+vive en `NEXT_PUBLIC_PSI_API_KEY` y la consulta la hace el navegador: una
+función de Netlify se corta a los 10 segundos y PageSpeed tarda entre 15 y 40,
+así que desde el servidor fallaría siempre. La clave debe estar restringida
+por referente HTTP al dominio del sitio. El informe se muestra apenas están
+los chequeos propios y se completa cuando llega la velocidad. Si PSI falla o
+excede el tiempo, queda con los chequeos del HTML y una nota "no pudimos medir
+la velocidad esta vez".
 
 **Puntaje.** Promedio ponderado: rendimiento 35 %, SEO 25 %, chequeos propios
 40 %. Cada chequeo propio vale lo mismo. Se redondea a entero.
@@ -521,9 +525,10 @@ no, va en Qué hacemos.
   en `app/api/auditoria/route.ts` con la lógica separada en
   `lib/audit/` (`validate-url.ts`, `analyze-html.ts`, `pagespeed.ts`,
   `score.ts`) para que cada pieza se pruebe sola.
-- Variables de entorno nuevas: `NEXT_PUBLIC_GA_ID` (fase 1) y `PSI_API_KEY`
-  (fase 3). Ambas se documentan en `.env.example`. El sitio funciona sin ellas:
-  sin GA no mide, sin PSI la auditoría sale parcial.
+- Variables de entorno nuevas: `NEXT_PUBLIC_GA_ID` (fase 1) y
+  `NEXT_PUBLIC_PSI_API_KEY` (fase 3). Ambas se documentan en `.env.example`. El
+  sitio funciona sin ellas: sin GA no mide, sin PSI la auditoría sale parcial.
+  Ninguna otra credencial del proyecto puede llegar al navegador.
 
 ## 10. Decisiones tomadas y supuestos a confirmar
 
