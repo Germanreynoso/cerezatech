@@ -9,9 +9,13 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion"
 import { useMotionVariants, VIEWPORT } from "@/lib/motion"
-import { waLink } from "@/lib/site-config"
+import { BUYOUT_MONTHS, MIN_TERM_MONTHS, SUBSCRIPTION_PLAN, waLink } from "@/lib/site-config"
 
 const FAQS = [
+  {
+    question: "¿La web es gratis de verdad?",
+    answer: `Sí: no cobramos el diseño ni el desarrollo, y no hay pago inicial. Lo que pagás es el mantenimiento, ${SUBSCRIPTION_PLAN.monthly} por mes, que cubre dominio, hosting, cambios de contenido, backups y soporte. La única condición es una permanencia mínima de ${MIN_TERM_MONTHS} meses, que es lo que nos permite no cobrarte el armado.`,
+  },
   {
     question: "¿Cuánto tarda en estar lista mi página?",
     answer:
@@ -25,7 +29,7 @@ const FAQS = [
   {
     question: "¿El precio incluye dominio y hosting?",
     answer:
-      "Sí, el primer año está incluido en todos los planes. A partir del segundo año el costo de renovación es aparte y te avisamos con anticipación cuánto es.",
+      "Sí. Con la web gratis están incluidos siempre, dentro de la mensualidad. En pago único está incluido el primer año; a partir del segundo el costo de renovación es aparte y te avisamos con anticipación cuánto es.",
   },
   {
     question: "¿Por qué los precios dicen «desde»?",
@@ -38,19 +42,18 @@ const FAQS = [
       "Sí. Hicimos el portal de la Municipalidad de Tafí del Valle y varias plataformas educativas. Podemos emitir factura y manejar la comunicación por mail cuando la institución lo necesita para dejar constancia.",
   },
   {
-    question: "¿Me conviene el pago único o la suscripción?",
+    question: "¿Me conviene la web gratis o el pago único?",
     answer:
-      "Si podés hacer el desembolso de una, el pago único sale más barato a la larga y la web queda a tu nombre enseguida. La suscripción es para arrancar sin poner todo junto: entrás con un pago inicial mucho menor y el hosting, los cambios y el soporte quedan incluidos todos los meses. Se hace exactamente el mismo trabajo en los dos casos.",
+      "Si podés hacer el desembolso de una, el pago único sale más barato a la larga y la web queda a tu nombre enseguida. La web gratis es para arrancar sin poner plata de entrada: no hay pago inicial, y el hosting, los cambios y el soporte quedan incluidos en la mensualidad. La calidad del trabajo es la misma en los dos casos.",
   },
   {
-    question: "¿Qué pasa si dejo de pagar la suscripción?",
-    answer:
-      "Cumplidos los 12 meses de permanencia podés dar de baja avisando con 30 días. Si querés quedarte con el sitio, lo transferimos a tu nombre abonando 3 mensualidades. Si preferís darlo de baja, te entregamos tus contenidos y el dominio: no retenemos nada tuyo.",
+    question: "¿Qué pasa si quiero dejar de pagar el mantenimiento?",
+    answer: `Cumplidos los ${MIN_TERM_MONTHS} meses de permanencia podés dar de baja avisando con 30 días. Si querés quedarte con el sitio, lo transferimos a tu nombre abonando ${BUYOUT_MONTHS} mensualidades. Si preferís darlo de baja, te entregamos tus contenidos y el dominio: no retenemos nada tuyo.`,
   },
   {
     question: "¿La página es mía? ¿Qué pasa si dejo de trabajar con ustedes?",
     answer:
-      "En pago único, la página y el dominio son tuyos desde el principio: te entregamos el código y las credenciales sin condiciones. En suscripción, pasan a tu nombre cuando decidas quedártela, según las condiciones publicadas en los planes.",
+      "En pago único, la página y el dominio son tuyos desde el principio: te entregamos el código y las credenciales sin condiciones. Con la web gratis, pasan a tu nombre cuando decidas quedártela, según las condiciones publicadas en los planes.",
   },
   {
     question: "¿Qué pasa con el dominio y el hosting al año siguiente?",
@@ -65,7 +68,7 @@ const FAQS = [
   {
     question: "¿Puedo actualizar el contenido después?",
     answer:
-      "Sí. Según el plan tenés un panel para cargar productos y noticias, o nos escribís por WhatsApp y lo hacemos nosotros. El plan Profesional incluye un mes de cambios sin costo.",
+      "Sí. Según el plan tenés un panel para cargar productos y noticias, o nos escribís por WhatsApp y lo hacemos nosotros. Con la web gratis tenés 4 cambios de contenido incluidos todos los meses; en pago único, todos los planes incluyen un mes de cambios sin costo.",
   },
   {
     question: "¿Qué pasa si no me gusta el diseño?",

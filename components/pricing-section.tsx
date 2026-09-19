@@ -8,23 +8,32 @@ import {
   BUYOUT_MONTHS,
   CUSTOM_TIER,
   MIN_TERM_MONTHS,
+  ONE_OFF_EXTRAS,
   PLANS,
   PRICES_UPDATED,
-  billingExtras,
+  SUBSCRIPTION_PLAN,
   mailLink,
   waLink,
   type BillingMode,
 } from "@/lib/site-config"
 import { cn } from "@/lib/utils"
 
+// La suscripción va primero y abierta por defecto: es la oferta que anuncia el
+// hero ("tu web gratis"), y quien llega desde ahí tiene que verla sin tocar nada.
 const MODES: { key: BillingMode; label: string; hint: string }[] = [
+  {
+    key: "suscripcion",
+    label: "Web gratis",
+    hint: "No pagás la web: solo el mantenimiento mensual",
+  },
   { key: "contado", label: "Pago único", hint: "Pagás una vez y la web es tuya" },
-  { key: "suscripcion", label: "Suscripción", hint: "Entrás con menos y pagás por mes" },
 ]
+
+const SUB_WA_MESSAGE = `Hola! Me interesa la web gratis con mantenimiento de ${SUBSCRIPTION_PLAN.monthly} por mes. ¿Me pasás más información?`
 
 export function PricingSection() {
   const { fadeUp, stagger } = useMotionVariants()
-  const [mode, setMode] = useState<BillingMode>("contado")
+  const [mode, setMode] = useState<BillingMode>("suscripcion")
 
   const isSub = mode === "suscripcion"
   const activeMode = MODES.find((m) => m.key === mode)!
@@ -46,8 +55,8 @@ export function PricingSection() {
             Planes <span className="text-gradient">claros</span>, sin letra chica
           </h2>
           <p className="mt-4 text-pretty text-muted-foreground">
-            Elegí cómo te conviene pagar. Estos valores son el punto de partida: el precio final
-            depende del alcance que definamos juntos.
+            Elegí cómo te conviene: la web gratis pagando solo el mantenimiento por mes, o un pago
+            único y la web queda a tu nombre desde el primer día.
           </p>
         </motion.div>
 
@@ -85,98 +94,148 @@ export function PricingSection() {
           <p className="mt-3 text-sm text-muted-foreground">{activeMode.hint}</p>
         </motion.div>
 
-        <motion.div
-          key={mode}
-          initial="hidden"
-          animate="visible"
-          variants={stagger}
-          className="mt-10 grid items-start gap-6 lg:grid-cols-3"
-        >
-          {PLANS.map((plan) => {
-            const extras = billingExtras(plan, mode)
-            const waMessage = isSub
-              ? `Hola! Me interesa el plan ${plan.name} por suscripción (${plan.pricing.setup} de setup + ${plan.pricing.monthly} por mes). ¿Me pasás más información?`
-              : `Hola! Me interesa el plan ${plan.name} (${plan.pricing.oneOff}, pago único). ¿Me pasás más información?`
+        {isSub ? (
+          <motion.div
+            key="suscripcion"
+            initial="hidden"
+            animate="visible"
+            variants={fadeUp}
+            className="relative mx-auto mt-10 max-w-5xl rounded-2xl border border-primary/45 bg-card p-8 lg:p-10"
+          >
+            <span className="absolute -top-3 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-full bg-primary px-4 py-1 text-xs font-bold uppercase tracking-wider text-primary-foreground">
+              Sin pago inicial
+            </span>
 
-            return (
-              <motion.div
-                key={plan.name}
-                variants={fadeUp}
-                className={cn(
-                  "relative flex h-full flex-col rounded-2xl border p-8",
-                  plan.featured
-                    ? "border-primary/45 bg-card lg:-mt-4 lg:pb-10 lg:pt-12"
-                    : "border-border bg-card/40"
-                )}
-              >
-                {plan.featured && (
-                  <span className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-primary px-4 py-1 text-xs font-bold uppercase tracking-wider text-primary-foreground">
-                    Más elegido
-                  </span>
-                )}
+            <div className="grid gap-10 lg:grid-cols-[1fr_1.25fr] lg:items-center">
+              <div>
+                <h3 className="text-lg font-semibold text-foreground">
+                  {SUBSCRIPTION_PLAN.name}
+                </h3>
+                <p className="mt-1 text-sm text-muted-foreground">{SUBSCRIPTION_PLAN.audience}</p>
 
-                <h3 className="text-lg font-semibold text-foreground">{plan.name}</h3>
-                <p className="mt-1 text-sm text-muted-foreground">{plan.audience}</p>
-
-                {isSub ? (
-                  <div className="mt-6">
-                    <p className="flex items-baseline gap-1.5">
+                {/* Los dos números juntos: el $0 es el gancho, la mensualidad es
+                    lo que se paga. Separarlos sería esconder el precio. */}
+                <dl className="mt-6 space-y-4">
+                  <div>
+                    <dt className="text-sm text-muted-foreground">Diseño y desarrollo</dt>
+                    <dd className="text-gradient text-5xl font-bold tracking-tight">$0</dd>
+                  </div>
+                  <div>
+                    <dt className="text-sm text-muted-foreground">Mantenimiento</dt>
+                    <dd className="flex items-baseline gap-1.5">
                       <span className="text-4xl font-bold tracking-tight text-foreground">
-                        {plan.pricing.monthly}
+                        {SUBSCRIPTION_PLAN.monthly}
                       </span>
                       <span className="text-sm text-muted-foreground">por mes</span>
-                    </p>
-                    <p className="mt-1.5 text-sm text-muted-foreground">
-                      + {plan.pricing.setup} de pago inicial
-                    </p>
-                    <p className="mt-2 inline-flex rounded-lg bg-primary/10 px-2.5 py-1 text-xs font-medium text-primary">
-                      o {plan.pricing.annual} al año — 2 meses bonificados
-                    </p>
+                    </dd>
                   </div>
-                ) : (
+                </dl>
+
+                <p className="mt-4 inline-flex rounded-lg bg-primary/10 px-2.5 py-1 text-xs font-medium text-primary">
+                  o {SUBSCRIPTION_PLAN.annual} al año — 2 meses bonificados
+                </p>
+                <p className="mt-3 text-sm text-muted-foreground">
+                  Permanencia mínima de {MIN_TERM_MONTHS} meses.
+                </p>
+
+                <p className="mt-4 text-sm leading-relaxed text-muted-foreground">
+                  {SUBSCRIPTION_PLAN.description}
+                </p>
+
+                <a
+                  href={waLink(SUB_WA_MESSAGE)}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="glow-gold mt-8 inline-flex w-full items-center justify-center rounded-xl bg-primary px-5 py-3.5 font-semibold text-primary-foreground transition-all hover:opacity-90 sm:w-auto"
+                >
+                  Quiero mi web gratis
+                </a>
+              </div>
+
+              <ul className="grid gap-x-8 gap-y-3.5 sm:grid-cols-2 lg:border-l lg:border-border lg:pl-10">
+                {SUBSCRIPTION_PLAN.features.map((feature) => (
+                  <li key={feature} className="flex items-start gap-3 text-sm">
+                    <Check className="mt-0.5 h-4 w-4 shrink-0 text-primary" aria-hidden />
+                    <span className="text-muted-foreground">{feature}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </motion.div>
+        ) : (
+          <motion.div
+            key="contado"
+            initial="hidden"
+            animate="visible"
+            variants={stagger}
+            className="mt-10 grid items-start gap-6 lg:grid-cols-3"
+          >
+            {PLANS.map((plan) => {
+              const waMessage = `Hola! Me interesa el plan ${plan.name} (${plan.oneOff}, pago único). ¿Me pasás más información?`
+
+              return (
+                <motion.div
+                  key={plan.name}
+                  variants={fadeUp}
+                  className={cn(
+                    "relative flex h-full flex-col rounded-2xl border p-8",
+                    plan.featured
+                      ? "border-primary/45 bg-card lg:-mt-4 lg:pb-10 lg:pt-12"
+                      : "border-border bg-card/40"
+                  )}
+                >
+                  {plan.featured && (
+                    <span className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-primary px-4 py-1 text-xs font-bold uppercase tracking-wider text-primary-foreground">
+                      Más elegido
+                    </span>
+                  )}
+
+                  <h3 className="text-lg font-semibold text-foreground">{plan.name}</h3>
+                  <p className="mt-1 text-sm text-muted-foreground">{plan.audience}</p>
+
                   <div className="mt-6">
                     <p className="flex items-baseline gap-2">
                       <span className="text-sm text-muted-foreground">desde</span>
                       <span className="text-4xl font-bold tracking-tight text-foreground">
-                        {plan.pricing.oneOff}
+                        {plan.oneOff}
                       </span>
                     </p>
                     <p className="mt-1.5 text-sm text-muted-foreground">
                       pago único, según el alcance
                     </p>
                   </div>
-                )}
 
-                <p className="mt-4 text-sm leading-relaxed text-muted-foreground">
-                  {plan.description}
-                </p>
+                  <p className="mt-4 text-sm leading-relaxed text-muted-foreground">
+                    {plan.description}
+                  </p>
 
-                <ul className="mt-7 flex-1 space-y-3.5">
-                  {[...plan.features, ...extras].map((feature) => (
-                    <li key={feature} className="flex items-start gap-3 text-sm">
-                      <Check className="mt-0.5 h-4 w-4 shrink-0 text-primary" aria-hidden />
-                      <span className="text-muted-foreground">{feature}</span>
-                    </li>
-                  ))}
-                </ul>
+                  <ul className="mt-7 flex-1 space-y-3.5">
+                    {[...plan.features, ...ONE_OFF_EXTRAS].map((feature) => (
+                      <li key={feature} className="flex items-start gap-3 text-sm">
+                        <Check className="mt-0.5 h-4 w-4 shrink-0 text-primary" aria-hidden />
+                        <span className="text-muted-foreground">{feature}</span>
+                      </li>
+                    ))}
+                  </ul>
 
-                <a
-                  href={waLink(waMessage)}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className={cn(
-                    "mt-8 inline-flex items-center justify-center rounded-xl px-5 py-3.5 font-semibold transition-all",
-                    plan.featured
-                      ? "glow-gold bg-primary text-primary-foreground hover:opacity-90"
-                      : "border border-border text-foreground hover:border-primary hover:text-primary"
-                  )}
-                >
-                  Quiero el plan {plan.name}
-                </a>
-              </motion.div>
-            )
-          })}
-        </motion.div>
+                  <a
+                    href={waLink(waMessage)}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={cn(
+                      "mt-8 inline-flex items-center justify-center rounded-xl px-5 py-3.5 font-semibold transition-all",
+                      plan.featured
+                        ? "glow-gold bg-primary text-primary-foreground hover:opacity-90"
+                        : "border border-border text-foreground hover:border-primary hover:text-primary"
+                    )}
+                  >
+                    Quiero el plan {plan.name}
+                  </a>
+                </motion.div>
+              )
+            })}
+          </motion.div>
+        )}
 
         {/* Condiciones de la suscripción. Van a la vista, no en letra chica:
             es la primera pregunta que hace todo el que evalúa este modelo. */}
@@ -184,11 +243,9 @@ export function PricingSection() {
           <motion.div
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
-            className="mt-8 rounded-2xl border border-border bg-card/40 p-8"
+            className="mx-auto mt-8 max-w-5xl rounded-2xl border border-border bg-card/40 p-8"
           >
-            <h3 className="text-lg font-semibold text-foreground">
-              Cómo funciona la suscripción
-            </h3>
+            <h3 className="text-lg font-semibold text-foreground">Cómo funciona la web gratis</h3>
             <dl className="mt-5 grid gap-6 sm:grid-cols-3">
               <div>
                 <dt className="text-sm font-semibold text-primary">Permanencia</dt>

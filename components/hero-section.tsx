@@ -5,15 +5,22 @@ import { AnimatePresence, motion } from "framer-motion"
 import { ArrowRight, Check, MessageCircle } from "lucide-react"
 import { BrowserFrame } from "@/components/browser-frame"
 import { useMotionVariants } from "@/lib/motion"
-import { SITE, VISIBLE_PROJECTS, projectShot, waLink } from "@/lib/site-config"
+import {
+  MIN_TERM_MONTHS,
+  SITE,
+  SUBSCRIPTION_PLAN,
+  VISIBLE_PROJECTS,
+  projectShot,
+  waLink,
+} from "@/lib/site-config"
 
 const TRUST_POINTS = [
-  "Entrega en 7 días",
+  "Sin pago inicial",
   "Dominio y hosting incluidos",
-  "Soporte post-lanzamiento",
+  "Entrega en 7 días",
 ]
 
-const WA_MESSAGE = "Hola! Quiero información sobre una página web para mi negocio."
+const WA_MESSAGE = `Hola! Quiero información sobre la web gratis con mantenimiento de ${SUBSCRIPTION_PLAN.monthly} por mes.`
 
 /** Quita el protocolo y la barra final para mostrar el dominio en la barra del navegador. */
 function domainOf(url: string): string {
@@ -66,20 +73,33 @@ export function HeroSection() {
             Sitios reales, funcionando hoy
           </motion.p>
 
+          {/* El gancho y su condición viven en el mismo bloque: "gratis" nunca
+              aparece sin la mensualidad y la permanencia al lado. */}
           <motion.h1
             variants={fadeUp}
-            className="mt-6 text-balance text-4xl font-bold leading-[1.08] tracking-tight sm:text-5xl lg:text-6xl"
+            className="mt-6 text-6xl font-bold leading-[0.95] tracking-tight sm:text-7xl lg:text-8xl"
           >
-            Tu negocio necesita una web que{" "}
-            <span className="text-gradient">venda</span>, no una que solo exista.
+            Tu web, <span className="text-gradient">gratis</span>.
           </motion.h1>
 
           <motion.p
             variants={fadeUp}
-            className="mt-6 max-w-xl text-pretty text-lg leading-relaxed text-muted-foreground"
+            className="mt-6 max-w-xl text-pretty text-xl font-medium leading-snug text-foreground sm:text-2xl"
           >
-            Desde una landing que te consigue clientes hasta plataformas interactivas a medida.
-            Rápidas, pensadas para el celular y con el contacto a un clic.
+            No pagás el diseño ni el desarrollo. Pagás solo el mantenimiento:{" "}
+            <span className="whitespace-nowrap text-primary">
+              {SUBSCRIPTION_PLAN.monthly} por mes
+            </span>
+            .
+          </motion.p>
+
+          <motion.p
+            variants={fadeUp}
+            className="mt-4 max-w-xl text-pretty leading-relaxed text-muted-foreground"
+          >
+            Una web que vende, no una que solo existe: rápida, pensada para el celular y con el
+            contacto a un clic. Dominio, hosting, cambios y soporte incluidos. Permanencia mínima
+            de {MIN_TERM_MONTHS} meses.
           </motion.p>
 
           <motion.div variants={fadeUp} className="mt-9 flex flex-col gap-3 sm:flex-row">
@@ -87,7 +107,7 @@ export function HeroSection() {
               href="#planes"
               className="glow-gold inline-flex items-center justify-center gap-2 rounded-xl bg-primary px-6 py-3.5 font-semibold text-primary-foreground transition-opacity hover:opacity-90"
             >
-              Quiero mi página web
+              Quiero mi web gratis
               <ArrowRight className="h-5 w-5" aria-hidden />
             </a>
             <a

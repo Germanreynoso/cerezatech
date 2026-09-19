@@ -23,7 +23,7 @@ const COMMITMENTS: { icon: LucideIcon; title: string; description: string }[] = 
     icon: Code2,
     title: "Nunca quedás atado",
     description:
-      "En pago único, el código y el dominio son tuyos desde el día uno. En suscripción, podés quedártelos cuando quieras según las condiciones publicadas. En ningún caso retenemos tu contenido.",
+      "En pago único, el código y el dominio son tuyos desde el día uno. Con la web gratis, podés quedártelos según las condiciones publicadas en los planes. En ningún caso retenemos tu contenido.",
   },
   {
     icon: Eye,

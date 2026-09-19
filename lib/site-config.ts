@@ -225,27 +225,17 @@ export const OTHER_PROJECTS = VISIBLE_PROJECTS.filter((p) => !p.featured)
 /* -------------------------------------------------------------------------- */
 
 /** Las dos formas de contratar. El sitio ofrece ambas, no una en lugar de la otra. */
-export type BillingMode = "contado" | "suscripcion"
+export type BillingMode = "suscripcion" | "contado"
 
+/** Plan de pago único: se paga una vez y el sitio queda a nombre del cliente. */
 export type Plan = {
   name: string
   audience: string
   description: string
-  /** Lo que el sitio incluye, igual en las dos modalidades. */
   features: readonly string[]
-  /** Cambios de contenido incluidos por mes. Solo aplica a la suscripción. */
-  monthlyEdits: number
   featured: boolean
-  pricing: {
-    /** Pago único. */
-    oneOff: string
-    /** Pago inicial de la suscripción: en torno al 30% del contado. */
-    setup: string
-    /** Cuota mensual: en torno al 9% del contado. */
-    monthly: string
-    /** Doce meses por adelantado, con dos bonificados. */
-    annual: string
-  }
+  /** Precio de partida del pago único. */
+  oneOff: string
 }
 
 /** Meses de permanencia mínima de la suscripción. */
@@ -266,6 +256,47 @@ const COMMON_FEATURES = [
   "Contacto directo por WhatsApp",
 ] as const
 
+/**
+ * La oferta de entrada del sitio: "tu web gratis".
+ *
+ * El diseño y el desarrollo no se cobran; se paga solo el mantenimiento
+ * mensual, sin pago inicial. Es un único plan y un único número, y es la
+ * fuente de verdad del hero, de la sección de planes y de los mensajes de
+ * WhatsApp: el monto no se escribe a mano en ningún otro lado.
+ *
+ * "Gratis" va siempre acompañado de la mensualidad y de la permanencia
+ * (`MIN_TERM_MONTHS`) en el mismo bloque visual, nunca solo.
+ */
+export const SUBSCRIPTION_PLAN = {
+  name: "Web gratis",
+  audience: "Pagás solo el mantenimiento",
+  description:
+    "No cobramos el diseño ni el desarrollo. Pagás una mensualidad fija que cubre todo lo que la web necesita para seguir funcionando.",
+  monthly: "$40.000",
+  /** Doce meses por adelantado, con dos bonificados. */
+  annual: "$400.000",
+  features: [
+    "Diseño y desarrollo sin costo",
+    ...COMMON_FEATURES,
+    "Hasta 5 páginas o secciones",
+    "Catálogo con búsqueda y filtros",
+    "Optimización para Google (SEO local)",
+    "Google Maps y reseñas",
+    "Dominio y hosting siempre incluidos",
+    "4 cambios de contenido por mes",
+    "Actualizaciones de seguridad y backups",
+    "Soporte por WhatsApp",
+    "Reporte mensual de visitas y consultas",
+  ],
+} as const
+
+/** Lo que suma el pago único a las `features` de cada plan. */
+export const ONE_OFF_EXTRAS = [
+  "Dominio y hosting el primer año",
+  "El código y el dominio quedan a tu nombre",
+  "1 mes de cambios sin costo",
+] as const
+
 export const PLANS: readonly Plan[] = [
   {
     name: "Básico",
@@ -276,14 +307,8 @@ export const PLANS: readonly Plan[] = [
       "Una página con todas tus secciones",
       "Entrega en 7 días",
     ],
-    monthlyEdits: 2,
     featured: false,
-    pricing: {
-      oneOff: "$200.000",
-      setup: "$60.000",
-      monthly: "$18.000",
-      annual: "$180.000",
-    },
+    oneOff: "$200.000",
   },
   {
     name: "Profesional",
@@ -296,14 +321,8 @@ export const PLANS: readonly Plan[] = [
       "Optimización para Google (SEO local)",
       "Google Maps y reseñas",
     ],
-    monthlyEdits: 4,
     featured: true,
-    pricing: {
-      oneOff: "$350.000",
-      setup: "$100.000",
-      monthly: "$30.000",
-      annual: "$300.000",
-    },
+    oneOff: "$350.000",
   },
   {
     name: "Premium",
@@ -316,34 +335,10 @@ export const PLANS: readonly Plan[] = [
       "Panel para cargar productos",
       "SEO avanzado y analítica",
     ],
-    monthlyEdits: 8,
     featured: false,
-    pricing: {
-      oneOff: "$500.000",
-      setup: "$150.000",
-      monthly: "$42.000",
-      annual: "$420.000",
-    },
+    oneOff: "$500.000",
   },
 ]
-
-/** Lo propio de cada modalidad, que se suma a `features` del plan. */
-export function billingExtras(plan: Plan, mode: BillingMode): readonly string[] {
-  if (mode === "contado") {
-    return [
-      "Dominio y hosting el primer año",
-      "El código y el dominio quedan a tu nombre",
-      "1 mes de cambios sin costo",
-    ]
-  }
-  return [
-    "Dominio y hosting siempre incluidos",
-    `${plan.monthlyEdits} cambios de contenido por mes`,
-    "Actualizaciones de seguridad y backups",
-    "Soporte por WhatsApp",
-    "Reporte mensual de visitas y consultas",
-  ]
-}
 
 /**
  * Cuarta opción, fuera de la grilla de planes.
